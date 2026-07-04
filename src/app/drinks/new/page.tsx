@@ -4,9 +4,9 @@ import DrinkEditor from "@/components/DrinkForm";
 export default function NewDrinkPage() {
   return (
     <DrinkForm
-      onSave={(data) => {
-        console.log("CREATE:", data);
-      }}
+      //onSave={(data) => {
+      //  console.log("CREATE:", data);
+      //}}
     />
   );
 }

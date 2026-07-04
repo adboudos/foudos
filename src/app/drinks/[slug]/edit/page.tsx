@@ -11,9 +11,9 @@ export default function EditPage({
   return (
     <DrinkForm
       drink={drink}
-      onSave={(data) => {
-        console.log("UPDATE:", data);
-      }}
+      //onSave={(data) => {
+      //  console.log("UPDATE:", data);
+      //}}
     />
   );
 }

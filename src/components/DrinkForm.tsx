@@ -26,13 +26,13 @@ export type Drink = {
 
 type Props = {
   drink?: Drink;
-  onSave: (data: Drink) => void;
+  /*onSave: (data: Drink) => void;*/
 };
 
 const inputClass =
   "w-full rounded-lg border border-[#1B4332]/20 bg-white px-4 py-3 mb-4 focus:outline-none focus:ring-2 focus:ring-[#1B4332]";
 
-export default function DrinkForm({ drink, onSave }: Props) {
+export default function DrinkForm({ drink /*, onSave */}: Props) {
   // ---------------------------
   // BASIC FIELDS
   // ---------------------------
@@ -102,7 +102,7 @@ export default function DrinkForm({ drink, onSave }: Props) {
       similarDrinks: drink?.similarDrinks || [],
     };
 
-    onSave(payload);
+    // onSave(payload);
   };
 
   return (
