@@ -1,4 +1,7 @@
+import Link from "next/dist/client/link";
+
 type DrinkRecipeProps = {
+  slug: string;
   name: string;
   description?: string;
   image?: string;
@@ -22,6 +25,7 @@ type DrinkRecipeProps = {
 };
 
 export default function DrinkRecipe({
+  slug,
   name,
   description,
   image,
@@ -80,6 +84,16 @@ export default function DrinkRecipe({
             View original source
           </a>
         )}
+        {/* EDIT BUTTON */}
+        <div className="mt-6">
+          <Link
+            href={`/drinks/${slug}/edit`}
+            className="text-sm underline opacity-80 hover:opacity-100"
+          >
+            Edit Drink
+          </Link>
+        </div>
+
       </header>
 
       {/* IMAGE + DETAILS */}

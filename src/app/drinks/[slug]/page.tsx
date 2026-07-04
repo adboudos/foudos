@@ -1,3 +1,4 @@
+import { drinks } from "@/data/drinks";
 import DrinkRecipe from "@/components/DrinkRecipe";
 
 const drinkData: Record<string, any> = {

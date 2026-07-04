@@ -67,6 +67,15 @@ export default function DrinksPage() {
           Cocktails, classics, and experiments worth pouring again.
         </p>
       </section>
+      
+      {/*Add Drink*/}
+      <section className="mx-auto max-w-7xl px-8 py-16">
+        <Link href="/drinks/new">
+          <button className="rounded bg-[#1B4332] px-4 py-2 text-[#F7F3E9]">
+            + Add New Drink
+          </button>
+        </Link>
+      </section>
 
       {/* GRID */}
       <section className="mx-auto max-w-7xl px-8 py-16">
