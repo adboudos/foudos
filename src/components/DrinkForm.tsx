@@ -1,28 +1,8 @@
 "use client";
 
 import { useState } from "react";
-
-export type Drink = {
-  slug?: string;
-  name: string;
-  description: string;
-  image: string;
-  link?: string;
-
-  mainAlcohols: string[];
-  keyIngredients: string[];
-
-  vibe: string;
-  contributor: string;
-
-  steps: string[];
-
-  rating?: number;
-  glassType?: string;
-  tags?: string[];
-
-  similarDrinks?: { name: string; image?: string }[];
-};
+import { Drink } from "@/types/drink";
+import PageShell from "@/components/PageShell";
 
 type Props = {
   drink?: Drink;
@@ -63,6 +43,13 @@ export default function DrinkForm({ drink /*, onSave */}: Props) {
   const [tags, setTags] = useState(
     drink?.tags?.join(", ") || ""
   );
+  const generateSlug = (text: string) =>
+  text
+    .toLowerCase()
+    .trim()
+    .replace(/['"]/g, "")
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-+|-+$/g, "");
 
   // ---------------------------
   // SUBMIT
@@ -70,6 +57,7 @@ export default function DrinkForm({ drink /*, onSave */}: Props) {
   const handleSubmit = () => {
     const payload: Drink = {
       name,
+      slug: generateSlug(name),
       description,
       image,
       link,
@@ -101,11 +89,12 @@ export default function DrinkForm({ drink /*, onSave */}: Props) {
 
       similarDrinks: drink?.similarDrinks || [],
     };
-
+    console.log("Submitting drink: ", payload);
     // onSave(payload);
   };
 
   return (
+    <PageShell>
     <div className="max-w-3xl mx-auto">
       {/* HEADER */}
       <div className="mb-8 border-b border-[#1B4332]/20 pb-4">
@@ -214,6 +203,7 @@ export default function DrinkForm({ drink /*, onSave */}: Props) {
         Save Drink
       </button>
     </div>
+    </PageShell>
   );
 }
 
