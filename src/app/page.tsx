@@ -2,6 +2,9 @@ import Navbar from "@/components/NavBar";
 import DisplayCard from "@/components/DisplayCard";
 import { SITE } from "@/lib/site";
 import Link from "next/link";
+import { getAllDrinks } from "@/lib/db/drinks"
+
+const drinks = await getAllDrinks();
 
 export default function Home() {
   return (
@@ -32,12 +35,13 @@ export default function Home() {
             <DisplayCard
               title="Coming Soon"
               description="Recipes are being crafted in the kitchen."
-              tag="Food"
+              tags="Food"
               type="Food"
+              slug="coming-soon"
             />
           </div>
         </div>
-
+        
         {/* DRINKS */}
         <div>
           <Link href="/drinks" className="mb-6 text-2xl font-bold text-[#1B4332]">
@@ -46,29 +50,17 @@ export default function Home() {
         <div className="mb-6 h-px w-full bg-[#1B4332]/20" />
 
           <div className="space-y-4">
-            <DisplayCard
-              title="Spicy Mezcal Margarita"
-              description="Mezcal, lime, jalapeño, tajín rim."
-              image="https://images.unsplash.com/photo-1551024601-bec78aea704b"
-              tag="Cocktail"
-              type="Drink"
-            />
-
-            <DisplayCard
-              title="Negroni Sbagliato"
-              description="Campari, sweet vermouth, prosecco."
-              image="https://images.unsplash.com/photo-1470337458703-46ad1756a187"
-              tag="Cocktail"
-              type="Drink"
-            />
-
-            <DisplayCard
-              title="Espresso Martini"
-              description="Vodka, espresso, coffee liqueur."
-              image="https://images.unsplash.com/photo-1541542684-4a2b3a0f9b4c"
-              tag="Cocktail"
-              type="Drink"
-            />
+            {drinks.slice(0,3).map((drink) => (
+                <DisplayCard
+                    key={drink.slug}
+                    title={drink.name}
+                    description={drink.description}
+                    image={drink.image}
+                    tags={drink.tags?.join(", ") ?? ""}
+                    type="Drink"
+                    slug={drink.slug}
+                />
+            ))}
           </div>
         </div>
 
@@ -83,8 +75,9 @@ export default function Home() {
             <DisplayCard
               title="Coming Soon"
               description="Restaurant reviews are on the way."
-              tag="Restaurants"
+              tags="Restaurants"
               type="Restaurant"
+              slug="coming-soon"
             />
           </div>
         </div>

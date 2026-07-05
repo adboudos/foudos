@@ -1,8 +1,9 @@
 import DisplayCard from "@/components/DisplayCard";
 import NavBar from "@/components/NavBar";
+import { getAllDrinks } from "@/lib/db/drinks";
 import Link from "next/dist/client/link";
 
-const drinks = [
+/*const drinks = [
   {
     slug: "spicy-mezcal-margarita",
     title: "Spicy Mezcal Margarita",
@@ -51,7 +52,8 @@ const drinks = [
       "https://images.unsplash.com/photo-1587223962930-cb7f31384c19",
     tag: "Cocktail",
   },
-];
+];*/
+const drinks = await getAllDrinks();
 
 export default function DrinksPage() {
   return (
@@ -81,16 +83,19 @@ export default function DrinksPage() {
       <section className="mx-auto max-w-7xl px-8 py-16">
         <div className="grid grid-cols-1 gap-8 md:grid-cols-3">
           {drinks.map((drink) => (
-            <Link href={`/drinks/${drink.slug}`}>
-              <DisplayCard
-                key={drink.slug}
-                title={drink.title}
-                description={drink.description}
-                image={drink.image}
-                tag={drink.tag}
-                type="Drink"
-              />
-            </Link>
+            <div className="space-y-4">
+            {drinks.slice(0,9).map((drink) => (
+                <DisplayCard
+                    key={drink.slug}
+                    title={drink.name}
+                    description={drink.description}
+                    image={drink.image}
+                    tags={drink.tags?.join(", ") ?? ""}
+                    type="Drink"
+                    slug={drink.slug}
+                />
+            ))}
+            </div>
           ))}
         </div>
       </section>
