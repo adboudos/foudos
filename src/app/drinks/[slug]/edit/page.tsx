@@ -10,7 +10,7 @@ export default function EditPage({
 
   return (
     <DrinkForm
-      drink={drink}
+      //drink={drink}
       //onSave={(data) => {
       //  console.log("UPDATE:", data);
       //}}

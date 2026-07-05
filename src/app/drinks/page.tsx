@@ -83,6 +83,7 @@ export default function DrinksPage() {
           {drinks.map((drink) => (
             <Link href={`/drinks/${drink.slug}`}>
               <DisplayCard
+                key={drink.slug}
                 title={drink.title}
                 description={drink.description}
                 image={drink.image}

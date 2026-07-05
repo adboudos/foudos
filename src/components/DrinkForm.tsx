@@ -3,6 +3,8 @@
 import { useState } from "react";
 import { Drink } from "@/types/drink";
 import PageShell from "@/components/PageShell";
+import { randomBytes } from "crypto";
+import Page from "@/app/food/page";
 
 type Props = {
   drink?: Drink;
@@ -56,11 +58,14 @@ export default function DrinkForm({ drink /*, onSave */}: Props) {
   // ---------------------------
   const handleSubmit = () => {
     const payload: Drink = {
+      id: randomBytes(16).toString("hex"), //obviously need a real ID situation here
       name,
       slug: generateSlug(name),
       description,
       image,
       link,
+      createdDate: new Date(),
+      updatedDate: new Date(),
 
       vibe,
       contributor,
@@ -95,114 +100,114 @@ export default function DrinkForm({ drink /*, onSave */}: Props) {
 
   return (
     <PageShell>
-    <div className="max-w-3xl mx-auto">
-      {/* HEADER */}
-      <div className="mb-8 border-b border-[#1B4332]/20 pb-4">
-        <h1 className="text-3xl font-bold">
-          {drink ? "Edit Drink" : "Create Drink"}
-        </h1>
-        <p className="text-sm opacity-70">
-          {drink
-            ? "Update this cocktail"
-            : "Add a new cocktail to Foudos"}
-        </p>
-      </div>
+      <div className="max-w-3xl mx-auto">
+        {/* HEADER */}
+        <div className="mb-8 border-b border-[#1B4332]/20 pb-4">
+            <h1 className="text-3xl font-bold">
+            {drink ? "Edit Drink" : "Create Drink"}
+            </h1>
+            <p className="text-sm opacity-70">
+            {drink
+                ? "Update this cocktail"
+                : "Add a new cocktail to Foudos"}
+            </p>
+        </div>
 
-      {/* FIELDS */}
-      <input
-        className={inputClass}
-        placeholder="Name"
-        value={name}
-        onChange={(e) => setName(e.target.value)}
-      />
+        {/* FIELDS */}
+        <input
+            className={inputClass}
+            placeholder="Name"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+        />
 
-      <textarea
-        className={inputClass}
-        placeholder="Description"
-        value={description}
-        onChange={(e) => setDescription(e.target.value)}
-      />
+        <textarea
+            className={inputClass}
+            placeholder="Description"
+            value={description}
+            onChange={(e) => setDescription(e.target.value)}
+        />
 
-      <input
-        className={inputClass}
-        placeholder="Image URL"
-        value={image}
-        onChange={(e) => setImage(e.target.value)}
-      />
+        <input
+            className={inputClass}
+            placeholder="Image URL"
+            value={image}
+            onChange={(e) => setImage(e.target.value)}
+        />
 
-      <input
-        className={inputClass}
-        placeholder="Link (optional)"
-        value={link}
-        onChange={(e) => setLink(e.target.value)}
-      />
+        <input
+            className={inputClass}
+            placeholder="Link (optional)"
+            value={link}
+            onChange={(e) => setLink(e.target.value)}
+        />
 
-      <input
-        className={inputClass}
-        placeholder="Main Alcohols (comma separated)"
-        value={mainAlcohols}
-        onChange={(e) => setMainAlcohols(e.target.value)}
-      />
+        <input
+            className={inputClass}
+            placeholder="Main Alcohols (comma separated)"
+            value={mainAlcohols}
+            onChange={(e) => setMainAlcohols(e.target.value)}
+        />
 
-      <input
-        className={inputClass}
-        placeholder="Key Ingredients (comma separated)"
-        value={keyIngredients}
-        onChange={(e) => setKeyIngredients(e.target.value)}
-      />
+        <input
+            className={inputClass}
+            placeholder="Key Ingredients (comma separated)"
+            value={keyIngredients}
+            onChange={(e) => setKeyIngredients(e.target.value)}
+        />
 
-      <input
-        className={inputClass}
-        placeholder="Steps (separate with | )"
-        value={steps}
-        onChange={(e) => setSteps(e.target.value)}
-      />
+        <input
+            className={inputClass}
+            placeholder="Steps (separate with | )"
+            value={steps}
+            onChange={(e) => setSteps(e.target.value)}
+        />
 
-      <input
-        className={inputClass}
-        placeholder="Vibe"
-        value={vibe}
-        onChange={(e) => setVibe(e.target.value)}
-      />
+        <input
+            className={inputClass}
+            placeholder="Vibe"
+            value={vibe}
+            onChange={(e) => setVibe(e.target.value)}
+        />
 
-      <input
-        className={inputClass}
-        placeholder="Contributor"
-        value={contributor}
-        onChange={(e) => setContributor(e.target.value)}
-      />
+        <input
+            className={inputClass}
+            placeholder="Contributor"
+            value={contributor}
+            onChange={(e) => setContributor(e.target.value)}
+        />
 
-      <input
-        className={inputClass}
-        placeholder="Glass Type"
-        value={glassType}
-        onChange={(e) => setGlassType(e.target.value)}
-      />
+        <input
+            className={inputClass}
+            placeholder="Glass Type"
+            value={glassType}
+            onChange={(e) => setGlassType(e.target.value)}
+        />
 
-      <input
-        className={inputClass}
-        type="number"
-        step="0.1"
-        placeholder="Rating (0–5)"
-        value={rating}
-        onChange={(e) => setRating(Number(e.target.value))}
-      />
+        <input
+            className={inputClass}
+            type="number"
+            step="0.1"
+            placeholder="Rating (0–5)"
+            value={rating}
+            onChange={(e) => setRating(Number(e.target.value))}
+        />
 
-      <input
-        className={inputClass}
-        placeholder="Tags (comma separated)"
-        value={tags}
-        onChange={(e) => setTags(e.target.value)}
-      />
+        <input
+            className={inputClass}
+            placeholder="Tags (comma separated)"
+            value={tags}
+            onChange={(e) => setTags(e.target.value)}
+        />
 
-      {/* SAVE */}
-      <button
-        onClick={handleSubmit}
-        className="w-full rounded-lg bg-[#1B4332] py-3 text-[#F7F3E9] hover:bg-[#2D6A4F] transition"
-      >
-        Save Drink
-      </button>
-    </div>
+        {/* SAVE */}
+        <button
+            onClick={handleSubmit}
+            className="w-full rounded-lg bg-[#1B4332] py-3 text-[#F7F3E9] hover:bg-[#2D6A4F] transition"
+        >
+            Save Drink
+        </button>
+        </div>
     </PageShell>
   );
 }

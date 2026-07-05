@@ -1,10 +1,12 @@
 export interface Drink {
-    id?: string;
+    id: string;
     slug: string;
     name: string;
     description: string;
     image: string;
     link?: string;
+    createdDate: Date;
+    updatedDate: Date;
 
     mainAlcohols: string[];
     keyIngredients: string[];
