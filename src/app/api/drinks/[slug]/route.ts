@@ -1,16 +1,12 @@
-
-import { getDrinkBySlug } from "@/lib/db/drinks";
+import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(
-    request: Request,
-    { params }: { params: { slug: string } }
+  request: NextRequest,
+  { params }: { params: Promise<{ slug: string }> }
 ) {
-    const drink = await getDrinkBySlug(params.slug);
+  const { slug } = await params;
 
-    return Response.json(drink);
-}
+  // Fetch drink by slug...
 
-export async function getDrinksBySlug(slug: string) {
-    // @todo all to supabase
-    
+  return NextResponse.json({ slug });
 }
