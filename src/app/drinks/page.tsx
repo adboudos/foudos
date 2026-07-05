@@ -80,25 +80,21 @@ export default function DrinksPage() {
       </section>
 
       {/* GRID */}
-      <section className="mx-auto max-w-7xl px-8 py-16">
+    <section className="mx-auto max-w-7xl px-8 py-16">
         <div className="grid grid-cols-1 gap-8 md:grid-cols-3">
-          {drinks.map((drink) => (
-            <div className="space-y-4">
-            {drinks.slice(0,9).map((drink) => (
-                <DisplayCard
-                    key={drink.slug}
-                    title={drink.name}
-                    description={drink.description}
-                    image={drink.image}
-                    tags={drink.tags?.join(", ") ?? ""}
-                    type="Drink"
-                    slug={drink.slug}
-                />
+            {drinks.slice(0, 9).map((drink) => (
+            <DisplayCard
+                key={drink.slug}
+                title={drink.name}
+                description={drink.description}
+                image={drink.image}
+                tags={drink.tags?.join(", ") ?? ""}
+                type="Drink"
+                slug={drink.slug}
+            />
             ))}
-            </div>
-          ))}
         </div>
-      </section>
+    </section>
     </main>
   );
 }
