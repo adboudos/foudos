@@ -23,5 +23,5 @@ export default async function Page({
     );
   }
 
-  return <DrinkRecipe drink={drink} />;
+  return <PageShell><DrinkRecipe drink={drink} /></PageShell>;
 }

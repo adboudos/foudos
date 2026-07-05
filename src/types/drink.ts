@@ -1,7 +1,6 @@
 import { Timestamp } from "next/dist/server/lib/cache-handlers/types";
 
 export interface Drink {
-    id: string;
     slug: string;
     name: string;
     description: string;

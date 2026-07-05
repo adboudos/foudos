@@ -1,14 +1,28 @@
+"use client";
+
 import Link from "next/dist/client/link";
 import { Drink } from "@/types/drink";
-
+import { deleteDrinkAction } from "@/app/actions/drinks";
+import { useRouter } from "next/navigation";
 
 type DrinkRecipeProps = {
   drink: Drink;
 };
 
+
+
 export default function DrinkRecipe({
   drink,
 }: DrinkRecipeProps) {
+  const router = useRouter();
+
+  const handleDelete = async () => {
+    if (confirm("Are you sure you want to delete this drink?")) {
+      await deleteDrinkAction(drink.slug);
+      router.push("/drinks");
+    }
+  };
+
   return (
     <article className="min-h-screen bg-[#F7F3E9] text-[#1B4332]">
 
@@ -140,37 +154,6 @@ export default function DrinkRecipe({
         </div>
       </section>
 
-      {/* SIMILAR DRINKS */}
-      {drink.similarDrinks && drink.similarDrinks.length > 0 && (
-        <section className="mx-auto max-w-7xl px-8 pb-20">
-          <h2 className="text-3xl font-bold mb-6 border-b border-[#1B4332]/20 pb-3">
-            Similar Drinks
-          </h2>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {(drink.similarDrinks ?? []).map((dr) => (
-              <div
-                key={drink.name}
-                className="rounded-xl bg-white shadow-md overflow-hidden"
-              >
-                {drink.image && (
-                  <img
-                    src={drink.image}
-                    alt={drink.name}
-                    className="h-40 w-full object-cover"
-                  />
-                )}
-                <div className="p-4">
-                  <p className="font-semibold text-[#1B4332]">
-                    {drink.name}
-                  </p>
-                </div>
-              </div>
-            ))}
-          </div>
-        </section>
-      )}
-
       {/* STEPS */}
       <section className="mx-auto max-w-4xl px-8 pb-20">
         <h2 className="text-3xl font-bold mb-6 border-b border-[#1B4332]/20 pb-3">
@@ -187,6 +170,18 @@ export default function DrinkRecipe({
             </li>
           ))}
         </ol>
+      </section>
+
+      {/* Delete */}
+      <section>
+        <button
+          onClick={async () => {
+            handleDelete();
+          }}
+          className="bg-red-600 text-white px-4 py-2 rounded"
+        >
+          Delete Drink
+        </button>
       </section>
     </article>
   );

@@ -3,7 +3,6 @@ import { Drink, DrinkRow } from "@/types/drink";
 
 export function mapDrink(row: DrinkRow): Drink {
   return {
-    id: row.id,
     createdDate: new Date(row.created_at ?? ""),
     updatedDate: new Date(row.updated_at ?? ""),
     slug: row.slug,

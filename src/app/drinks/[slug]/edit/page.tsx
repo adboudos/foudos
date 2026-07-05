@@ -1,19 +1,20 @@
 import DrinkForm from "@/components/DrinkForm";
-import { drinks } from "@/data/drinks";
+import PageShell from "@/components/PageShell";
+import { getDrink } from "@/lib/db/drinks";
 
-export default function EditPage({
+export default async function EditDrinkPage({
   params,
 }: {
-  params: { slug: string };
+  params: Promise<{ slug: string }>;
 }) {
-  const drink = drinks.find((d) => d.slug === params.slug);
+  const { slug } = await params;
 
-  return (
-    <DrinkForm
-      //drink={drink}
-      //onSave={(data) => {
-      //  console.log("UPDATE:", data);
-      //}}
-    />
-  );
+  const drink = await getDrink(slug);
+
+  if (!drink) {
+    return <PageShell>Drink not found</PageShell>;
+  }
+
+  return <DrinkForm drink={drink} />;
 }
+

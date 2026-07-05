@@ -3,18 +3,18 @@
 import { useState } from "react";
 import { Drink } from "@/types/drink";
 import PageShell from "@/components/PageShell";
-import { randomBytes } from "crypto";
-import Page from "@/app/food/page";
+import { createDrinkAction, updateDrinkAction } from "@/app/actions/drinks";
+import { useRouter } from "next/navigation";
 
 type Props = {
   drink?: Drink;
-  /*onSave: (data: Drink) => void;*/
 };
 
 const inputClass =
   "w-full rounded-lg border border-[#1B4332]/20 bg-white px-4 py-3 mb-4 focus:outline-none focus:ring-2 focus:ring-[#1B4332]";
 
-export default function DrinkForm({ drink /*, onSave */}: Props) {
+export default function DrinkForm({ drink }: Props) {
+    const router = useRouter();
   // ---------------------------
   // BASIC FIELDS
   // ---------------------------
@@ -28,7 +28,7 @@ export default function DrinkForm({ drink /*, onSave */}: Props) {
   const [rating, setRating] = useState(drink?.rating || 0);
 
   // ---------------------------
-  // ARRAY FIELDS (stored as comma-separated input for simplicity)
+  // ARRAY FIELDS (stored as comma-separated [pipe for steps] input for simplicity)
   // ---------------------------
   const [mainAlcohols, setMainAlcohols] = useState(
     drink?.mainAlcohols?.join(", ") || ""
@@ -56,9 +56,8 @@ export default function DrinkForm({ drink /*, onSave */}: Props) {
   // ---------------------------
   // SUBMIT
   // ---------------------------
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     const payload: Drink = {
-      id: randomBytes(16).toString("hex"), //obviously need a real ID situation here
       name,
       slug: generateSlug(name),
       description,
@@ -95,7 +94,15 @@ export default function DrinkForm({ drink /*, onSave */}: Props) {
       similarDrinks: drink?.similarDrinks || [],
     };
     console.log("Submitting drink: ", payload);
-    // onSave(payload);
+    if (drink) {
+        await updateDrinkAction(drink.slug, payload);
+        router.push(`/drinks/${drink.slug}`);
+        router.refresh()
+    } else {
+        await createDrinkAction(payload);
+        router.push(`/drinks/${payload.slug}`);
+        router.refresh()
+    }
   };
 
   return (
