@@ -3,6 +3,7 @@ import DrinkRecipe from "@/components/DrinkRecipe";
 import { getDrink } from "@/lib/db/drinks";
 import PageShell from "@/components/PageShell";
 
+export const dynamic = "force-dynamic";
 
 export default async function Page({
   params,

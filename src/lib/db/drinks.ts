@@ -1,7 +1,10 @@
-import { supabase } from "../supabase/client";
+import { createServerSupabaseClient } from "../supabase/server";
 import { mapDrink } from "./mappers/drinks";
 
+
 export async function getAllDrinks() {
+  const supabase = createServerSupabaseClient();
+  
   const { data, error } = await supabase
     .from("drinks")
     .select("*");
@@ -12,25 +15,31 @@ export async function getAllDrinks() {
 }
 
 export async function getDrink(slug: string) {
+  const supabase = createServerSupabaseClient();
+
   if (!slug) return null;
   console.log("Fetching drink with slug:", slug);
 
-  const { data } = await supabase
+  const { data, error } = await supabase
     .from("drinks")
     .select("*")
     .eq("slug", slug)
     .limit(1)
     .maybeSingle();
 
-  return data ?? null;
+  console.log("Supabase returned:", data);
+  
+  if (error) throw error;
 
-  return mapDrink(data);
+  return data ? mapDrink(data) : null;
 }
 
 import { toDrinkRow } from "./mappers/drinks";
 import type { Drink } from "@/types/drink";
 
 export async function createDrink(drink: Drink) {
+  const supabase = createServerSupabaseClient();
+
   const { data, error } = await supabase
     .from("drinks")
     .insert(toDrinkRow(drink))
@@ -39,10 +48,12 @@ export async function createDrink(drink: Drink) {
 
   if (error) throw error;
 
-  return data;
+  return data ? mapDrink(data) : null;
 }
 
 export async function updateDrink(slug: string, drink: Drink) {
+  const supabase = createServerSupabaseClient();
+
   const { data, error } = await supabase
     .from("drinks")
     .update(toDrinkRow(drink))
@@ -52,10 +63,12 @@ export async function updateDrink(slug: string, drink: Drink) {
 
   if (error) throw error;
 
-  return data;
+  return mapDrink(data);
 }
 
 export async function deleteDrink(slug: string) {
+  const supabase = createServerSupabaseClient();
+
   const { error } = await supabase
     .from("drinks")
     .delete()
