@@ -97,12 +97,11 @@ export default function DrinkForm({ drink }: Props) {
     if (drink) {
         await updateDrinkAction(drink.slug, payload);
         router.push(`/drinks/${drink.slug}`);
-        router.refresh()
     } else {
         await createDrinkAction(payload);
         router.push(`/drinks/${payload.slug}`);
-        router.refresh()
     }
+    router.refresh();
   };
 
   return (

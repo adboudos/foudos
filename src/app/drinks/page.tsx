@@ -2,6 +2,7 @@ import DisplayCard from "@/components/DisplayCard";
 import NavBar from "@/components/NavBar";
 import { getAllDrinks } from "@/lib/db/drinks";
 import Link from "next/dist/client/link";
+import RealtimeRefresh from "@/components/RealtimeRefresh";
 
 /*const drinks = [
   {
@@ -53,11 +54,15 @@ import Link from "next/dist/client/link";
     tag: "Cocktail",
   },
 ];*/
+
 const drinks = await getAllDrinks();
+
+
 
 export default function DrinksPage() {
   return (
     <main className="min-h-screen bg-[#F7F3E9]">
+      <RealtimeRefresh />
       <NavBar />
 
       {/* HEADER */}
