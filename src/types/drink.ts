@@ -1,6 +1,7 @@
 import { Timestamp } from "next/dist/server/lib/cache-handlers/types";
+import { Ingredient } from "./ingredient";
 
-export interface Drink {
+export type Drink = {
     slug: string;
     name: string;
     description: string;
@@ -15,6 +16,7 @@ export interface Drink {
     vibe: string;
     contributor: string;
 
+    ingredients: Ingredient[];
     steps: string[];
 
     rating?: number;
@@ -41,6 +43,7 @@ export type DrinkRow = {
   vibe: string | null;
   contributor: string | null;
 
+  ingredients: Ingredient[] | null;
   steps: string[] | null;
 
   rating: number | null;
@@ -49,6 +52,7 @@ export type DrinkRow = {
   tags: string[] | null;
 
   similar_drinks: string[] | null;
+
 };
 
 type DrinkRecipeProps = {

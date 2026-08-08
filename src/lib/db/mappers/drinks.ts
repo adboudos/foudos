@@ -17,6 +17,7 @@ export function mapDrink(row: DrinkRow): Drink {
     vibe: row.vibe ?? "",
     contributor: row.contributor ?? "",
 
+    ingredients: row.ingredients ?? [],
     steps: row.steps ?? [],
 
     rating: row.rating ?? undefined,
@@ -40,6 +41,7 @@ export function toDrinkRow(drink: Drink): Partial<DrinkRow> {
     vibe: drink.vibe,
     contributor: drink.contributor,
 
+    ingredients: drink.ingredients,
     steps: drink.steps,
 
     rating: drink.rating,

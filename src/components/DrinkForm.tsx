@@ -5,11 +5,11 @@ import { Drink } from "@/types/drink";
 import PageShell from "@/components/PageShell";
 import { createDrinkAction, updateDrinkAction } from "@/app/actions/drinks";
 import { useRouter } from "next/navigation";
+import { Ingredient } from "@/types/ingredient";
 
 type Props = {
   drink?: Drink;
 };
-
 
 const inputClass =
   "w-full rounded-lg border border-[#1B4332]/20 bg-white px-4 py-3 mb-4 focus:outline-none focus:ring-2 focus:ring-[#1B4332]";
@@ -40,6 +40,39 @@ export default function DrinkForm({ drink }: Props) {
   const [keyIngredients, setKeyIngredients] = useState(
     drink?.keyIngredients?.join(", ") || ""
   );
+
+  const [ingredients, setIngredients] = useState<Ingredient[]>(
+    drink?.ingredients || [
+      {
+        quantity: null,
+        unit: "",
+        name: "",
+      },
+    ]
+  );
+
+  const addIngredient = () => {
+    setIngredients([
+      ...ingredients,
+      {
+        quantity: null,
+        unit: "",
+        name: "",
+      },
+    ]);
+  };
+
+  const removeIngredient = (index: number) => {
+    setIngredients(ingredients.filter((_, i) => i !== index));
+  };
+
+  const updateIngredient = (index: number, field: keyof Ingredient, value: any) => {
+    setIngredients(
+      ingredients.map((ingredient, i) =>
+        i === index ? { ...ingredient, [field]: value } : ingredient
+      )
+    );
+  };
 
   const [steps, setSteps] = useState(
     drink?.steps?.join(" | ") || ""
@@ -92,7 +125,11 @@ export default function DrinkForm({ drink }: Props) {
         .split(",")
         .map((v) => v.trim())
         .filter(Boolean),
-
+      
+      ingredients: ingredients.filter(
+        (ingredient) => ingredient.name.trim() !== ""
+      ),
+      
       steps: steps
         .split("|")
         .map((v) => v.trim())
@@ -232,29 +269,105 @@ export default function DrinkForm({ drink }: Props) {
             onChange={(e) => setTags(e.target.value)}
         />
 
-        {/*ERROR Message*/}
-        {error && (
-          <div className="mb-4 rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">
-            {error}
+        {/* INGREDIENTS YIKES! */}
+        <div>
+          <div className="mb-4 flex items-center justify-between">
+            <div>
+              <h2 className="text-xl font-bold">Ingredients</h2>
+              <p className="text-sm text-[#1B4332]/60">
+                Add the ingredients and quantities for this drink.
+              </p>
+            </div>
+
+            <button
+              type="button"
+              onClick={addIngredient}
+              className="rounded-lg bg-[#1B4332] px-3 py-2 text-sm text-[#F7F3E9]"
+            >
+              + Add Ingredient
+            </button>
           </div>
-        )}
 
-        {/* SAVE */}
-        <button
-            onClick={handleSubmit}
-            className="w-full rounded-lg bg-[#1B4332] py-3 text-[#F7F3E9] hover:bg-[#2D6A4F] transition"
-        >
-            Save Drink
-        </button>
+          <div className="space-y-3">
+            {ingredients.map((ingredient, index) => (
+              <div
+                key={index}
+                className="grid grid-cols-1 gap-2 rounded-lg border border-[#1B4332]/10 p-4 sm:grid-cols-[100px_120px_1fr_auto]"
+              >
+                <input
+                  type="number"
+                  step="0.01"
+                  placeholder="Qty"
+                  value={ingredient.quantity ?? ""}
+                  onChange={(e) =>
+                    updateIngredient(
+                      index,
+                      "quantity",
+                      e.target.value === ""
+                        ? null
+                        : Number(e.target.value)
+                    )
+                  }
+                  className={inputClass}
+                />
 
-        {/* CANCEL */}
-        <button
-            onClick={handleCancel}
-            className="w-full rounded-lg bg-[#D9D9D9] py-3 text-[#333] hover:bg-[#BFBFBF] transition"
-        >
-            Cancel
-        </button>
+                <input
+                  type="text"
+                  placeholder="Unit"
+                  value={ingredient.unit}
+                  onChange={(e) =>
+                    updateIngredient(index, "unit", e.target.value)
+                  }
+                  className={inputClass}
+                />
 
+                <input
+                  type="text"
+                  placeholder="Ingredient"
+                  value={ingredient.name}
+                  onChange={(e) =>
+                    updateIngredient(index, "name", e.target.value)
+                  }
+                  className={inputClass}
+                />
+
+                <button
+                  type="button"
+                  onClick={() => removeIngredient(index)}
+                  className="px-2 text-sm text-red-600"
+                >
+                  Remove
+                </button>
+              </div>
+            ))}
+          </div>
+        
+        </div>
+          <div className = "flex flex-col gap-4 mt-6">
+          {/*ERROR Message*/}
+          {error && (
+            <div className="mb-4 rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">
+              {error}
+            </div>
+          )}
+
+          {/* SAVE */}
+          <button
+              onClick={handleSubmit}
+              className="w-full rounded-lg bg-[#1B4332] py-3 text-[#F7F3E9] hover:bg-[#2D6A4F] transition"
+          >
+              Save Drink
+          </button>
+
+          {/* CANCEL */}
+          <button
+              onClick={handleCancel}
+              className="w-full rounded-lg bg-[#D9D9D9] py-3 text-[#333] hover:bg-[#BFBFBF] transition"
+          >
+              Cancel
+          </button>
+        </div>
+        
         </div>
     </PageShell>
   );

@@ -164,41 +164,22 @@ export default function DrinkRecipe({ drink }: DrinkRecipeProps) {
                   Ingredients
                 </h2>
               </div>
+              {/* Ingredient List */}
+              <ul>
+                {drink.ingredients.map((ingredient, index) => (
+                  <li
+                    key={`${ingredient.name}-${index}`}
+                    className="flex gap-4 border-b border-[#1B4332]/10 py-4"
+                  >
+                    <span className="w-20 shrink-0 font-medium">
+                      {ingredient.quantity ?? ""}
+                      {ingredient.unit && ` ${ingredient.unit}`}
+                    </span>
 
-              {/* Main Alcohols */}
-              {drink.mainAlcohols && drink.mainAlcohols.length > 0 && (
-                <div className="mb-8">
-                  <p className="mb-3 text-xs font-semibold uppercase tracking-[0.15em] opacity-50">
-                    Spirit
-                  </p>
-
-                  <div className="flex flex-wrap gap-2">
-                    {drink.mainAlcohols.map((alcohol) => (
-                      <span
-                        key={alcohol}
-                        className="rounded-full bg-[#1B4332] px-3 py-1.5 text-sm text-[#F7F3E9]"
-                      >
-                        {alcohol}
-                      </span>
-                    ))}
-                  </div>
-                </div>
-              )}
-
-              {/* Key Ingredients */}
-              {drink.keyIngredients &&
-                drink.keyIngredients.length > 0 && (
-                  <ul className="divide-y divide-[#1B4332]/10 border-y border-[#1B4332]/10">
-                    {drink.keyIngredients.map((ingredient, index) => (
-                      <li
-                        key={`${ingredient}-${index}`}
-                        className="py-4 text-base leading-relaxed"
-                      >
-                        {ingredient}
-                      </li>
-                    ))}
-                  </ul>
-                )}
+                    <span>{ingredient.name}</span>
+                  </li>
+                ))}
+              </ul>
 
               {/* Additional Info */}
               {(drink.glassType || drink.vibe || drink.contributor) && (
@@ -263,7 +244,7 @@ export default function DrinkRecipe({ drink }: DrinkRecipeProps) {
                     className="flex gap-5 border-b border-[#1B4332]/10 pb-8 last:border-0"
                   >
                     <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[#1B4332] text-sm font-semibold text-[#F7F3E9]">
-                      {String(index + 1).padStart(2, "0")}
+                      {String(index + 1)}
                     </span>
 
                     <p className="pt-1 text-lg leading-relaxed text-[#1B4332]/85 sm:text-xl">
