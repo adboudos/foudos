@@ -9,8 +9,6 @@ type DrinkRecipeProps = {
   drink: Drink;
 };
 
-
-
 export default function DrinkRecipe({
   drink,
 }: DrinkRecipeProps) {
