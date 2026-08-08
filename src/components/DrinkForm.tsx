@@ -57,6 +57,13 @@ export default function DrinkForm({ drink }: Props) {
     .replace(/^-+|-+$/g, "");
 
   // ---------------------------
+  // CANCEL
+  // ---------------------------
+  const handleCancel = () => {
+    router.push("/drinks");
+  };
+
+  // ---------------------------
   // SUBMIT
   // ---------------------------
   const handleSubmit = async () => {
@@ -118,13 +125,8 @@ export default function DrinkForm({ drink }: Props) {
       }
     } catch (error: any) {
       console.error("Failed to save drink:", error);
+      setError("Something went wrong. A drink probably exists with the same name. Or the database is down. Can't tell. Bad error handling. Sorry!");
 
-      if (error?.code === "23505") {
-        setError("A drink with this name already exists. Please choose a different name.");
-      } else {
-        console.error("Unexpected error: ", error?.code, "\n\n", error);
-        setError("Something unexpected went wrong when saving this drink! Sorry!");
-      }
     }
   };
 
@@ -244,6 +246,15 @@ export default function DrinkForm({ drink }: Props) {
         >
             Save Drink
         </button>
+
+        {/* CANCEL */}
+        <button
+            onClick={handleCancel}
+            className="w-full rounded-lg bg-[#D9D9D9] py-3 text-[#333] hover:bg-[#BFBFBF] transition"
+        >
+            Cancel
+        </button>
+
         </div>
     </PageShell>
   );
