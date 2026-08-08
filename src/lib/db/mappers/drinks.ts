@@ -38,6 +38,7 @@ export function toDrinkRow(drink: Drink): Partial<DrinkRow> {
     name: drink.name,
     description: drink.description,
     image: drink.image,
+    link: drink.link,
 
     main_alcohols: drink.mainAlcohols,
     key_ingredients: drink.keyIngredients,

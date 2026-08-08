@@ -116,7 +116,7 @@ export default function DrinkForm({ drink }: Props) {
       image,
       link,
       createdDate: drink?.createdDate ?? new Date(),
-      updatedDate: new Date(),
+      updatedDate: new Date( ),
       notes,
       iceType,
       servings,
