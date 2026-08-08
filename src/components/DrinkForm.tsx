@@ -122,6 +122,7 @@ export default function DrinkForm({ drink }: Props) {
       if (error?.code === "23505") {
         setError("A drink with this name already exists. Please choose a different name.");
       } else {
+        console.error("Unexpected error: ", error?.code, "\n\n", error);
         setError("Something unexpected went wrong when saving this drink! Sorry!");
       }
     }
