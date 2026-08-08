@@ -13,7 +13,7 @@ export type Drink = {
     mainAlcohols: string[];
     keyIngredients: string[];
 
-    vibe: string;
+    vibes: string[];
     contributor: string;
 
     ingredients: Ingredient[];
@@ -21,7 +21,10 @@ export type Drink = {
 
     rating?: number;
     glassType?: string;
-
+    iceType?: string;
+    servings?: string;
+    garnish?: string;
+    notes?: string;
     tags?: string[];
 
     similarDrinks?: string[];
@@ -39,16 +42,18 @@ export type DrinkRow = {
 
   main_alcohols: string[] | null;
   key_ingredients: string[] | null;
-
-  vibe: string | null;
+  vibes: string[] | null;
   contributor: string | null;
+  rating: number | null;
 
   ingredients: Ingredient[] | null;
   steps: string[] | null;
 
-  rating: number | null;
   glass_type: string | null;
-
+  ice_type: string | null;
+  notes: string | null;
+  servings: string | null;
+  garnish: string | null;
   tags: string[] | null;
 
   similar_drinks: string[] | null;
@@ -65,7 +70,7 @@ type DrinkRecipeProps = {
   mainAlcohols: string[];
   keyIngredients: string[];
 
-  vibe: string;
+  vibes: string[];
   contributor: string;
 
   steps?: string[];

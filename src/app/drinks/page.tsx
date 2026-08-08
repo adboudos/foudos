@@ -88,7 +88,7 @@ export default async function DrinksPage() {
       {/* GRID */}
     <section className="mx-auto max-w-7xl px-8 py-16">
         <div className="grid grid-cols-1 gap-8 md:grid-cols-3">
-            {drinks.slice(0, 9).map((drink) => (
+            {drinks.slice(0, 30).map((drink) => (
             <DisplayCard
                 key={drink.slug}
                 title={drink.name}

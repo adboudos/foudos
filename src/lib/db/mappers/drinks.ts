@@ -14,7 +14,7 @@ export function mapDrink(row: DrinkRow): Drink {
     mainAlcohols: row.main_alcohols ?? [],
     keyIngredients: row.key_ingredients ?? [],
 
-    vibe: row.vibe ?? "",
+    vibes: row.vibes ?? [],
     contributor: row.contributor ?? "",
 
     ingredients: row.ingredients ?? [],
@@ -22,6 +22,10 @@ export function mapDrink(row: DrinkRow): Drink {
 
     rating: row.rating ?? undefined,
     glassType: row.glass_type ?? undefined,
+    iceType: row.ice_type ?? undefined,
+    servings: row.servings ?? "",
+    garnish: row.garnish ?? undefined,
+    notes: row.notes ?? undefined,
 
     tags: row.tags ?? [],
     similarDrinks: row.similar_drinks ?? [],
@@ -38,7 +42,7 @@ export function toDrinkRow(drink: Drink): Partial<DrinkRow> {
     main_alcohols: drink.mainAlcohols,
     key_ingredients: drink.keyIngredients,
 
-    vibe: drink.vibe,
+    vibes: drink.vibes,
     contributor: drink.contributor,
 
     ingredients: drink.ingredients,
@@ -46,7 +50,10 @@ export function toDrinkRow(drink: Drink): Partial<DrinkRow> {
 
     rating: drink.rating,
     glass_type: drink.glassType,
-
+    notes: drink.notes,
+    ice_type: drink.iceType,
+    servings: drink.servings,
+    garnish: drink.garnish,
     tags: drink.tags,
     similar_drinks: drink.similarDrinks,
   };

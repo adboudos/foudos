@@ -86,13 +86,13 @@ export default function DrinkRecipe({ drink }: DrinkRecipeProps) {
               </>
             )}
 
-            {drink.vibe && (
+            {drink.vibes && (
               <>
                 <span className="hidden opacity-30 sm:inline">•</span>
 
                 <div className="flex items-center gap-2">
                   <span className="font-semibold">Vibe</span>
-                  <span className="opacity-60">{drink.vibe}</span>
+                  <span className="opacity-60">{drink.vibes.join(" · ")}</span>
                 </div>
               </>
             )}
@@ -182,11 +182,22 @@ export default function DrinkRecipe({ drink }: DrinkRecipeProps) {
               </ul>
 
               {/* Additional Info */}
-              {(drink.glassType || drink.vibe || drink.contributor) && (
+              {(drink.glassType || drink.contributor || drink.iceType || drink.servings || drink.garnish ) && (
                 <div className="mt-10 space-y-5 border-t border-[#1B4332]/10 pt-8">
 
-                  {drink.glassType && (
+                  {drink.servings && (
                     <div>
+                      <p className="text-xs font-semibold uppercase tracking-[0.15em] opacity-50">
+                        Servings
+                      </p>
+                      <p className="mt-1 text-sm">
+                        {drink.servings}
+                      </p>
+                    </div>
+                  )}
+
+                  {drink.glassType && (
+                  <div>
                       <p className="text-xs font-semibold uppercase tracking-[0.15em] opacity-50">
                         Glass
                       </p>
@@ -195,14 +206,24 @@ export default function DrinkRecipe({ drink }: DrinkRecipeProps) {
                       </p>
                     </div>
                   )}
-
-                  {drink.vibe && (
+                  {drink.iceType && (
                     <div>
                       <p className="text-xs font-semibold uppercase tracking-[0.15em] opacity-50">
-                        Vibe
+                        Ice Type
                       </p>
                       <p className="mt-1 text-sm">
-                        {drink.vibe}
+                        {drink.iceType}
+                      </p>
+                    </div>
+                  )}
+
+                  {drink.garnish && (
+                    <div>
+                      <p className="text-xs font-semibold uppercase tracking-[0.15em] opacity-50">
+                        Garnish
+                      </p>
+                      <p className="mt-1 text-sm">
+                        {drink.garnish}
                       </p>
                     </div>
                   )}
@@ -258,9 +279,23 @@ export default function DrinkRecipe({ drink }: DrinkRecipeProps) {
                 No instructions have been added yet.
               </p>
             )}
+
           </main>
         </div>
       </section>
+          {/* NOTES */}
+          {drink.notes && (
+            <section className="mt-12 rounded-xl border border-[#1B4332]/10 bg-[#1B4332]/[0.04] p-6 sm:p-8">
+              <p className="mb-2 text-xs font-semibold uppercase tracking-[0.2em] opacity-50">
+                Notes
+              </p>
+
+              <p className="text-base leading-relaxed text-[#1B4332]/80 sm:text-lg">
+                {drink.notes}
+              </p>
+            </section>
+          )}
+
 
       {/* =========================================================
           FOOTER / ACTIONS

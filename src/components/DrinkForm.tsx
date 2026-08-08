@@ -25,10 +25,13 @@ export default function DrinkForm({ drink }: Props) {
   const [description, setDescription] = useState(drink?.description || "");
   const [image, setImage] = useState(drink?.image || "");
   const [link, setLink] = useState(drink?.link || "");
-  const [vibe, setVibe] = useState(drink?.vibe || "");
   const [contributor, setContributor] = useState(drink?.contributor || "");
   const [glassType, setGlassType] = useState(drink?.glassType || "");
   const [rating, setRating] = useState(drink?.rating || 0);
+  const [notes, setNotes] = useState(drink?.notes || "");
+  const [iceType, setIceType] = useState(drink?.iceType || "");
+  const [servings, setServings] = useState(drink?.servings || "");
+  const [garnish, setGarnish] = useState(drink?.garnish || "");
 
   // ---------------------------
   // ARRAY FIELDS (stored as comma-separated [pipe for steps] input for simplicity)
@@ -39,6 +42,10 @@ export default function DrinkForm({ drink }: Props) {
 
   const [keyIngredients, setKeyIngredients] = useState(
     drink?.keyIngredients?.join(", ") || ""
+  );
+
+  const [vibes, setVibes] = useState(
+    drink?.vibes?.join(", ") || ""
   );
 
   const [ingredients, setIngredients] = useState<Ingredient[]>(
@@ -110,8 +117,15 @@ export default function DrinkForm({ drink }: Props) {
       link,
       createdDate: drink?.createdDate ?? new Date(),
       updatedDate: new Date(),
+      notes,
+      iceType,
+      servings,
+      garnish,
 
-      vibe,
+      vibes: vibes
+        .split(",")
+        .map((v) => v.trim())
+        .filter(Boolean),
       contributor,
       glassType,
       rating,
@@ -129,7 +143,7 @@ export default function DrinkForm({ drink }: Props) {
       ingredients: ingredients.filter(
         (ingredient) => ingredient.name.trim() !== ""
       ),
-      
+
       steps: steps
         .split("|")
         .map((v) => v.trim())
@@ -234,9 +248,9 @@ export default function DrinkForm({ drink }: Props) {
 
         <input
             className={inputClass}
-            placeholder="Vibe"
-            value={vibe}
-            onChange={(e) => setVibe(e.target.value)}
+            placeholder="Vibes (comma separated)"
+            value={vibes}
+            onChange={(e) => setVibes(e.target.value)}
         />
 
         <input
@@ -251,6 +265,29 @@ export default function DrinkForm({ drink }: Props) {
             placeholder="Glass Type"
             value={glassType}
             onChange={(e) => setGlassType(e.target.value)}
+        />
+
+        <input
+            className={inputClass}
+            placeholder="Ice Type"
+            value={iceType}
+            onChange={(e) => setIceType(e.target.value)}
+        />
+
+    
+        <input
+            className={inputClass}
+            placeholder="Servings"
+            value={servings}
+            onChange={(e) => setServings(e.target.value)}
+            type="number"
+        />
+
+        <input
+            className={inputClass}
+            placeholder="Garnish"
+            value={garnish}
+            onChange={(e) => setGarnish(e.target.value)}
         />
 
         <input
@@ -271,7 +308,7 @@ export default function DrinkForm({ drink }: Props) {
 
         {/* INGREDIENTS YIKES! */}
         <div>
-          <div className="mb-4 flex items-center justify-between">
+          <div className="mb-4 flex items-center justify-between space-y-2">
             <div>
               <h2 className="text-xl font-bold">Ingredients</h2>
               <p className="text-sm text-[#1B4332]/60">
@@ -340,10 +377,18 @@ export default function DrinkForm({ drink }: Props) {
                 </button>
               </div>
             ))}
+          <textarea
+                className={inputClass}
+                placeholder="Write some notes"
+                value={notes}
+                onChange={(e) => setNotes(e.target.value)}
+          />
+
           </div>
+
         
         </div>
-          <div className = "flex flex-col gap-4 mt-6">
+        <div className="flex flex-col gap-4 mt-6">
           {/*ERROR Message*/}
           {error && (
             <div className="mb-4 rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">
