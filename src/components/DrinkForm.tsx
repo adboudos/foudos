@@ -10,11 +10,14 @@ type Props = {
   drink?: Drink;
 };
 
+
 const inputClass =
   "w-full rounded-lg border border-[#1B4332]/20 bg-white px-4 py-3 mb-4 focus:outline-none focus:ring-2 focus:ring-[#1B4332]";
 
 export default function DrinkForm({ drink }: Props) {
     const router = useRouter();
+    const [error, setError] = useState("");
+
   // ---------------------------
   // BASIC FIELDS
   // ---------------------------
@@ -57,6 +60,8 @@ export default function DrinkForm({ drink }: Props) {
   // SUBMIT
   // ---------------------------
   const handleSubmit = async () => {
+      setError("");
+
     const payload: Drink = {
       name,
       slug: generateSlug(name),
@@ -111,8 +116,14 @@ export default function DrinkForm({ drink }: Props) {
 
         newDrink ? router.push(`/drinks/${newDrink.slug}`) : router.push('/drinks');
       }
-    } catch (error) {
+    } catch (error: any) {
       console.error("Failed to save drink:", error);
+
+      if (error?.code === "23505") {
+        setError("A drink with this name already exists. Please choose a different name.");
+      } else {
+        setError("Something unexpected went wrong when saving this drink! Sorry!");
+      }
     }
   };
 
@@ -217,6 +228,13 @@ export default function DrinkForm({ drink }: Props) {
             value={tags}
             onChange={(e) => setTags(e.target.value)}
         />
+
+        {/*ERROR Message*/}
+        {error && (
+          <div className="mb-4 rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">
+            {error}
+          </div>
+        )}
 
         {/* SAVE */}
         <button
