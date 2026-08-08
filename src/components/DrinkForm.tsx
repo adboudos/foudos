@@ -63,7 +63,7 @@ export default function DrinkForm({ drink }: Props) {
       description,
       image,
       link,
-      createdDate: new Date(),
+      createdDate: drink?.createdDate ?? new Date(),
       updatedDate: new Date(),
 
       vibe,
@@ -94,14 +94,26 @@ export default function DrinkForm({ drink }: Props) {
       similarDrinks: drink?.similarDrinks || [],
     };
     console.log("Submitting drink: ", payload);
-    if (drink) {
-        await updateDrinkAction(drink.slug, payload);
-        router.push(`/drinks/${drink.slug}`);
-    } else {
-        await createDrinkAction(payload);
-        router.push(`/drinks/${payload.slug}`);
+    
+    try {
+      if (drink) {
+        const updatedDrink = await updateDrinkAction(
+          drink.slug,
+          payload
+        );
+
+        console.log("Updated drink:", updatedDrink);
+        router.push(`/drinks/${updatedDrink.slug}`);
+      } else {
+        const newDrink = await createDrinkAction(payload);
+
+        console.log("Created drink:", newDrink);
+
+        newDrink ? router.push(`/drinks/${newDrink.slug}`) : router.push('/drinks');
+      }
+    } catch (error) {
+      console.error("Failed to save drink:", error);
     }
-    router.refresh();
   };
 
   return (
