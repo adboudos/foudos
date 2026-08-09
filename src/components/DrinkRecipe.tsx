@@ -23,26 +23,130 @@ export default function DrinkRecipe({ drink }: DrinkRecipeProps) {
     <article className="min-h-screen bg-[#F7F3E9] text-[#1B4332]">
 
       {/* =========================================================
-          HERO
+          HERO / RECIPE HEADER
       ========================================================= */}
       <header className="px-6 pb-12 pt-16 text-center sm:px-8 sm:pb-16 sm:pt-20">
-        <div className="mx-auto max-w-4xl">
+        <div className="mx-auto max-w-5xl">
 
           {/* Eyebrow */}
           <p className="mb-5 text-sm font-semibold uppercase tracking-[0.25em] opacity-60">
             Cocktail
           </p>
 
-          {/* Name */}
+          {/* Title */}
           <h1 className="text-5xl font-bold tracking-tight sm:text-6xl md:text-7xl">
             {drink.name}
           </h1>
 
           {/* Description */}
           {drink.description && (
-            <p className="mx-auto mt-6 max-w-2xl text-lg leading-relaxed opacity-75 sm:text-xl">
+            <p className="mx-auto mt-6 max-w-2xl text-lg leading-relaxed opacity-75 sm:text-xl underline underline-offset-4">
               {drink.description}
             </p>
+          )}
+
+          {/* =====================================================
+              PRIMARY METADATA
+              Spirit · Key Ingredients · Vibes
+          ===================================================== */}
+          <div className="mt-10 flex flex-wrap justify-center gap-x-6 gap-y-4 text-sm sm:text-base">
+
+            {drink.mainAlcohols && drink.mainAlcohols.length > 0 && (
+              <div>
+                <span className="font-semibold">Spirit:</span>{" "}
+                <span className="opacity-60">
+                  {drink.mainAlcohols.join(" · ")}
+                </span>
+              </div>
+            )}
+
+            {drink.keyIngredients && drink.keyIngredients.length > 0 && (
+              <>
+                <span className="hidden opacity-30 sm:inline">•</span>
+
+                <div>
+                  <span className="font-semibold">Key Ingredients:</span>{" "}
+                  <span className="opacity-60">
+                    {drink.keyIngredients.join(" · ")}
+                  </span>
+                </div>
+              </>
+            )}
+
+            {drink.vibes && drink.vibes.length > 0 && (
+              <>
+                <span className="hidden opacity-30 sm:inline">•</span>
+
+                <div>
+                  <span className="font-semibold">Vibe:</span>{" "}
+                  <span className="opacity-60">
+                    {drink.vibes.join(" · ")}
+                  </span>
+                </div>
+              </>
+            )}
+
+          </div>
+
+          {/* =====================================================
+              SECONDARY METADATA
+              Glass · Ice · Serving · Garnish
+          ===================================================== */}
+          {(drink.glassType ||
+            drink.iceType ||
+            drink.servings ||
+            drink.garnish) && (
+            <div className="mt-5 flex flex-wrap justify-center gap-x-6 gap-y-4 text-sm sm:text-base">
+
+              {drink.glassType && (
+                <div>
+                  <span className="font-semibold">Glass:</span>{" "}
+                  <span className="opacity-60">
+                    {drink.glassType}
+                  </span>
+                </div>
+              )}
+
+              {drink.iceType && (
+                <>
+                  <span className="hidden opacity-30 sm:inline">•</span>
+
+                  <div>
+                    <span className="font-semibold">Ice:</span>{" "}
+                    <span className="opacity-60">
+                      {drink.iceType}
+                    </span>
+                  </div>
+                </>
+              )}
+
+              {drink.servings && (
+                <>
+                  <span className="hidden opacity-30 sm:inline">•</span>
+
+                  <div>
+                    <span className="font-semibold">Serves:</span>{" "}
+                    <span className="opacity-60">
+                      {drink.servings}
+                    </span>
+                  </div>
+                </>
+              )}
+
+              {drink.garnish && (
+                <>
+                  <span className="hidden opacity-30 sm:inline">•</span>
+
+                  <div>
+                    <span className="font-semibold">Garnish:</span>{" "}
+                    <span className="opacity-60">
+                      {drink.garnish}
+                    </span>
+                  </div>
+                </>
+              )}
+
+            </div>
           )}
 
           {/* Rating */}
@@ -63,40 +167,6 @@ export default function DrinkRecipe({ drink }: DrinkRecipeProps) {
               </span>
             </div>
           )}
-
-          {/* Metadata */}
-          <div className="mt-8 flex flex-wrap items-center justify-center gap-x-5 gap-y-3 text-sm">
-            {drink.mainAlcohols && drink.mainAlcohols.length > 0 && (
-              <div className="flex items-center gap-2">
-                <span className="font-semibold">Spirit</span>
-                <span className="opacity-60">
-                  {drink.mainAlcohols.join(" · ")}
-                </span>
-              </div>
-            )}
-
-            {drink.glassType && (
-              <>
-                <span className="hidden opacity-30 sm:inline">•</span>
-
-                <div className="flex items-center gap-2">
-                  <span className="font-semibold">Glass</span>
-                  <span className="opacity-60">{drink.glassType}</span>
-                </div>
-              </>
-            )}
-
-            {drink.vibes && (
-              <>
-                <span className="hidden opacity-30 sm:inline">•</span>
-
-                <div className="flex items-center gap-2">
-                  <span className="font-semibold">Vibe</span>
-                  <span className="opacity-60">{drink.vibes.join(" · ")}</span>
-                </div>
-              </>
-            )}
-          </div>
 
           {/* Tags */}
           {drink.tags && drink.tags.length > 0 && (
@@ -123,6 +193,7 @@ export default function DrinkRecipe({ drink }: DrinkRecipeProps) {
               View original source →
             </a>
           )}
+
         </div>
       </header>
 
@@ -142,10 +213,12 @@ export default function DrinkRecipe({ drink }: DrinkRecipeProps) {
         </section>
       )}
 
+      <div className="mx-auto max-w-6xl border-t border-[#1B4332]/10 px-6 sm:px-8" />
+
       {/* =========================================================
           RECIPE
       ========================================================= */}
-      <section className="mx-auto max-w-6xl px-6 py-14 sm:px-8 sm:py-20">
+      <section className="mx-auto max-w-6xl px-6 pt-8 pb-14 sm:px-8 sm:pt-10 sm:pb-20 border-t border-[#1B4332]/10" >
 
         <div className="grid grid-cols-1 gap-14 lg:grid-cols-[minmax(260px,0.7fr)_minmax(0,1.3fr)] lg:gap-20">
 
@@ -164,7 +237,7 @@ export default function DrinkRecipe({ drink }: DrinkRecipeProps) {
                   Ingredients
                 </h2>
               </div>
-              {/* Ingredient List */}
+
               <ul>
                 {drink.ingredients.map((ingredient, index) => (
                   <li
@@ -181,65 +254,6 @@ export default function DrinkRecipe({ drink }: DrinkRecipeProps) {
                 ))}
               </ul>
 
-              {/* Additional Info */}
-              {(drink.glassType || drink.contributor || drink.iceType || drink.servings || drink.garnish ) && (
-                <div className="mt-10 space-y-5 border-t border-[#1B4332]/10 pt-8">
-
-                  {drink.servings && (
-                    <div>
-                      <p className="text-xs font-semibold uppercase tracking-[0.15em] opacity-50">
-                        Servings
-                      </p>
-                      <p className="mt-1 text-sm">
-                        {drink.servings}
-                      </p>
-                    </div>
-                  )}
-
-                  {drink.glassType && (
-                  <div>
-                      <p className="text-xs font-semibold uppercase tracking-[0.15em] opacity-50">
-                        Glass
-                      </p>
-                      <p className="mt-1 text-sm">
-                        {drink.glassType}
-                      </p>
-                    </div>
-                  )}
-                  {drink.iceType && (
-                    <div>
-                      <p className="text-xs font-semibold uppercase tracking-[0.15em] opacity-50">
-                        Ice Type
-                      </p>
-                      <p className="mt-1 text-sm">
-                        {drink.iceType}
-                      </p>
-                    </div>
-                  )}
-
-                  {drink.garnish && (
-                    <div>
-                      <p className="text-xs font-semibold uppercase tracking-[0.15em] opacity-50">
-                        Garnish
-                      </p>
-                      <p className="mt-1 text-sm">
-                        {drink.garnish}
-                      </p>
-                    </div>
-                  )}
-
-                  {drink.contributor && (
-                    <div>
-                      <p className="text-xs font-semibold uppercase tracking-[0.15em] opacity-50">
-                        Recipe by
-                      </p>
-                      <p className="mt-1 text-sm">
-                        {drink.contributor}
-                      </p>
-                    </div>
-                  )}
-                </div>
-              )}
             </div>
           </aside>
 
@@ -280,35 +294,59 @@ export default function DrinkRecipe({ drink }: DrinkRecipeProps) {
               </p>
             )}
 
+            {/* Notes */}
+            {drink.notes && (
+              <section className="mt-12 rounded-xl border border-[#1B4332]/10 bg-[#1B4332]/[0.04] p-6 sm:p-8">
+                <p className="mb-2 text-xs font-semibold uppercase tracking-[0.2em] opacity-50">
+                  Notes
+                </p>
+
+                <p className="text-base leading-relaxed text-[#1B4332]/80 sm:text-lg">
+                  {drink.notes}
+                </p>
+              </section>
+            )}
+
           </main>
+
         </div>
       </section>
-          {/* NOTES */}
-          {drink.notes && (
-            <section className="mt-12 rounded-xl border border-[#1B4332]/10 bg-[#1B4332]/[0.04] p-6 sm:p-8">
-              <p className="mb-2 text-xs font-semibold uppercase tracking-[0.2em] opacity-50">
-                Notes
-              </p>
-
-              <p className="text-base leading-relaxed text-[#1B4332]/80 sm:text-lg">
-                {drink.notes}
-              </p>
-            </section>
-          )}
-
 
       {/* =========================================================
-          FOOTER / ACTIONS
+          FOOTER / RECIPE INFO / ACTIONS
       ========================================================= */}
       <footer className="border-t border-[#1B4332]/10 px-6 py-10 sm:px-8">
-        <div className="mx-auto flex max-w-6xl flex-col items-center justify-between gap-5 sm:flex-row">
+        <div className="mx-auto flex max-w-6xl flex-col gap-8 sm:flex-row sm:items-start sm:justify-between">
 
-          <div className="text-sm opacity-50">
-            {drink.updatedDate
-              ? `Last updated ${new Date(drink.updatedDate).toLocaleDateString()}`
-              : "Foudos Cocktail"}
+          {/* Recipe information */}
+          <div className="space-y-2 text-sm opacity-60">
+
+            {drink.contributor && (
+              <p>
+                Recipe by{" "}
+                <span className="font-medium text-[#1B4332]">
+                  {drink.contributor}
+                </span>
+              </p>
+            )}
+
+            {drink.createdDate && (
+              <p>
+                Created{" "}
+                {new Date(drink.createdDate).toLocaleDateString()}
+              </p>
+            )}
+
+            {drink.updatedDate && (
+              <p>
+                Last updated{" "}
+                {new Date(drink.updatedDate).toLocaleDateString()}
+              </p>
+            )}
+
           </div>
 
+          {/* Actions */}
           <div className="flex items-center gap-5 text-sm">
             <Link
               href={`/drinks/${drink.slug}/edit`}
@@ -324,6 +362,7 @@ export default function DrinkRecipe({ drink }: DrinkRecipeProps) {
               Delete
             </button>
           </div>
+
         </div>
       </footer>
 
