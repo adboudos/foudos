@@ -45,47 +45,46 @@ export default function DrinksContent({
 
   return (
     <>
-      {/* SEARCH / ADD DRINK */}
-      <section className="mx-auto  bg-[#F7F3E9] sticky top-15 z-50">
-        <div className="mx-auto flex max-w-7xl flex-col gap-4 px-4 py-4 sm:flex-row sm:items-center sm:justify-between">
-          <Link href="/drinks/new">
-            <button className="rounded bg-[#1B4332] px-4 py-4 text-[#F7F3E9]">
-              + Add Drink
-            </button>
-          </Link>
-          <DrinkSearch onResults={handleSearchResults} />
-        </div>
-        <div className="mx-auto border-t border-[#1B4332]/10" />
-      </section>
+    {/* ADD / SEARCH */}
+    <section className="mx-auto max-w-6xl px-8 py-6">
+      <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
 
+        <Link href="/drinks/new">
+          <button
+            className="h-10 rounded-lg bg-[#1B4332] px-4 text-sm font-medium text-[#F7F3E9] transition hover:bg-[#2D6A4F]"
+          >
+            + Add New Drink
+          </button>
+        </Link>
 
+        <DrinkSearch onResults={handleSearchResults} />
 
-      {/* GRID */}
-      <section className="mx-auto max-w-7xl px-8 py-8">
-        {isSearching && filteredDrinks.length === 0 ? (
-          <div className="py-16 text-center">
-            <p className="text-lg text-gray-500">
-              No drinks found.
-            </p>
-          </div>
-        ) : (
-          <div className="grid grid-cols-1 gap-8 md:grid-cols-3">
-            {filteredDrinks.slice(0, 30).map((drink) => (
-              <DisplayCard
-                key={drink.slug}
-                title={drink.name}
-                description={drink.description}
-                image={drink.image}
-                vibes={drink.vibes}
-                mainAlcohols={drink.mainAlcohols}
-                keyIngredients={drink.keyIngredients}
-                type="Drink"
-                slug={drink.slug}
-              />
-            ))}
-          </div>
-        )}
-      </section>
+      </div>
+    </section>
+
+    {/* DIVIDER */}
+    <div className="mx-auto max-w-6xl px-8">
+      <div className="border-t border-[#1B4332]/10" />
+    </div>
+
+    {/* GRID */}
+    <section className="mx-auto max-w-6xl px-8 py-6">
+      <div className="grid grid-cols-1 gap-8 md:grid-cols-3">
+        {drinks.slice(0, 30).map((drink) => (
+          <DisplayCard
+            key={drink.slug}
+            title={drink.name}
+            description={drink.description}
+            image={drink.image}
+            mainAlcohols={drink.mainAlcohols}
+            keyIngredients={drink.keyIngredients}
+            vibes={drink.vibes}
+            type="Drink"
+            slug={drink.slug}
+          />
+        ))}
+      </div>
+    </section>
     </>
   );
 }

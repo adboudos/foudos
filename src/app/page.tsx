@@ -31,7 +31,7 @@ export default function Home() {
             Food
           </Link>
         <div className="mb-6 h-px w-full bg-[#1B4332]/20" />          
-        <div className="space-y-4">
+        <div className="flex flex-col gap-4">
             <DisplayCard
               title="Coming Soon"
               description="Recipes are being crafted in the kitchen."
@@ -48,13 +48,16 @@ export default function Home() {
           </Link>
         <div className="mb-6 h-px w-full bg-[#1B4332]/20" />
 
-          <div className="space-y-4">
+          <div className="flex flex-col gap-4">
             {drinks.slice(0,3).map((drink) => (
                 <DisplayCard
                     key={drink.slug}
                     title={drink.name}
                     description={drink.description}
                     image={drink.image}
+                    vibes={drink.vibes}
+                    mainAlcohols={drink.mainAlcohols}
+                    keyIngredients={drink.keyIngredients}
                     type="Drink"
                     slug={drink.slug}
                 />
@@ -69,7 +72,7 @@ export default function Home() {
           </Link>
         <div className="mb-6 h-px w-full bg-[#1B4332]/20" />
 
-          <div className="space-y-4">
+          <div className="flex flex-col gap-4">
             <DisplayCard
               title="Coming Soon"
               description="Restaurant reviews are on the way."

@@ -26,7 +26,7 @@ export default function DrinkRecipe({ drink }: DrinkRecipeProps) {
           HERO / RECIPE HEADER
       ========================================================= */}
       <header className="px-6 pb-12 pt-16 text-center sm:px-8 sm:pb-16 sm:pt-20">
-        <div className="mx-auto max-w-6xl">
+        <div className="mx-auto max-w-4xl">
 
           {/* Eyebrow */}
           <p className="mb-5 text-sm font-semibold uppercase tracking-[0.25em] opacity-60">
@@ -150,7 +150,7 @@ export default function DrinkRecipe({ drink }: DrinkRecipeProps) {
           )}
 
           {/* Rating */}
-          {typeof drink.rating === "number" && drink.rating > 0 && (
+          {typeof drink.rating === "number" && drink.rating > 0 && drink.rating < 5&& (
             <div className="mt-7 flex items-center justify-center gap-3">
               <span
                 className="text-xl tracking-widest"
@@ -213,14 +213,14 @@ export default function DrinkRecipe({ drink }: DrinkRecipeProps) {
         </section>
       )}
 
-      <div className="mx-auto max-w-6xl border-t border-[#1B4332]/10 px-6 sm:px-8" />
+      <div className="mx-auto max-w-4xl border-t border-[#1B4332]/10 px-6 sm:px-8" />
 
       {/* =========================================================
           RECIPE
       ========================================================= */}
-      <section className="mx-auto max-w-7xl px-6 pt-8 pb-14 sm:px-8 sm:pt-10 sm:pb-20 border-t border-[#1B4332]/10" >
+      <section className="mx-auto max-w-4xl px-6 pt-8 pb-14 sm:px-8 sm:pt-10 sm:pb-20 border-t border-[#1B4332]/10" >
 
-        <div className="grid grid-cols-1 gap-14 lg:grid-cols-[minmax(260px,0.7fr)_minmax(0,1.3fr)] lg:gap-20">
+        <div className="grid grid-cols-1 gap-14 lg:grid-cols-[minmax(260px,0.9fr)_minmax(0,1.1fr)] lg:gap-20">
 
           {/* =====================================================
               INGREDIENTS

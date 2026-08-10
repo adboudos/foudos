@@ -7,7 +7,8 @@ export async function getAllDrinks() {
   
   const { data, error } = await supabase
     .from("drinks")
-    .select("*");
+    .select("*")
+    .order("updated_at", { ascending: false });
 
   if (error) throw error;
 

@@ -338,7 +338,7 @@ export default function DrinkForm({ drink }: Props) {
           <section>
             <SectionHeader
               title="Key Elements"
-              description="These fields help define the drink's character."
+              description="Separate multiple vibes with commas."
             />
 
             <div className="space-y-3.5">
@@ -356,7 +356,7 @@ export default function DrinkForm({ drink }: Props) {
                 />
 
                 <p className={helpTextClass}>
-                  Separate multiple alcohols with commas.
+                  Vodka, Tequila, Bourbon, etc.
                 </p>
               </div>
 
@@ -374,7 +374,7 @@ export default function DrinkForm({ drink }: Props) {
                 />
 
                 <p className={helpTextClass}>
-                  Separate multiple ingredients with commas.
+                  Vanilla, Cherries, Orange, etc.
                 </p>
               </div>
 
@@ -392,7 +392,7 @@ export default function DrinkForm({ drink }: Props) {
                 />
 
                 <p className={helpTextClass}>
-                  Examples: refreshing, boozy, bitter, tropical.
+                  Fruity, Refreshing, Strong, Wintry, etc.
                 </p>
               </div>
 
