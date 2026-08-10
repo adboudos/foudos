@@ -40,7 +40,7 @@ export default function DrinkRecipe({ drink }: DrinkRecipeProps) {
 
           {/* Description */}
           {drink.description && (
-            <p className="mx-auto mt-6 max-w-2xl text-lg leading-relaxed opacity-75 sm:text-xl underline underline-offset-4">
+            <p className="mx-auto mt-6 max-w-2xl text-lg leading-relaxed opacity-75 sm:text-xl">
               {drink.description}
             </p>
           )}

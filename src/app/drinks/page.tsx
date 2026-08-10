@@ -3,104 +3,35 @@ import NavBar from "@/components/NavBar";
 import { getAllDrinks } from "@/lib/db/drinks";
 import Link from "next/link";
 import RealtimeRefresh from "@/components/RealtimeRefresh";
-
-/*const drinks = [
-  {
-    slug: "spicy-mezcal-margarita",
-    title: "Spicy Mezcal Margarita",
-    description: "Mezcal, lime, jalapeño, tajín rim.",
-    image:
-      "https://images.unsplash.com/photo-1551024601-bec78aea704b",
-    tag: "Cocktail",
-  },
-  {
-    Slug: "negroni-sbagliato",
-    title: "Negroni Sbagliato",
-    description: "Campari, sweet vermouth, prosecco.",
-    image:
-      "https://images.unsplash.com/photo-1470337458703-46ad1756a187",
-    tag: "Cocktail",
-  },
-  {
-    slug: "espresso-martini",
-    title: "Espresso Martini",
-    description: "Vodka, espresso, coffee liqueur.",
-    image:
-      "https://images.unsplash.com/photo-1541542684-4a2b3a0f9b4c",
-    tag: "Cocktail",
-  },
-  {
-    slug: "aperol-spritz",
-    title: "Aperol Spritz",
-    description: "Aperol, prosecco, soda, orange slice.",
-    image:
-      "https://images.unsplash.com/photo-1556679343-c7306c1976bc",
-    tag: "Cocktail",
-  },
-  {
-    slug: "old-fashioned",
-    title: "Old Fashioned",
-    description: "Bourbon, bitters, sugar, orange peel.",
-    image:
-      "https://images.unsplash.com/photo-1470337458703-46ad1756a187",
-    tag: "Classic",
-  },
-  {
-    slug: "paloma",
-    title: "Paloma",
-    description: "Tequila, grapefruit soda, lime.",
-    image:
-      "https://images.unsplash.com/photo-1587223962930-cb7f31384c19",
-    tag: "Cocktail",
-  },
-];*/
+import DrinksContent from "@/components/DrinksContent";
+import PageShell from "@/components/PageShell";
 
 export const dynamic = "force-dynamic";
 
 export default async function DrinksPage() {
-
   const drinks = await getAllDrinks();
 
   return (
-    <main className="min-h-screen bg-[#F7F3E9]">
-      <RealtimeRefresh />
-      <NavBar />
-
+    <main>
+      <PageShell>
       {/* HEADER */}
-      <section className="bg-[#1B4332] py-20 text-center text-[#F7F3E9]">
-        <h1 className="text-5xl font-bold mb-4">
+      <section className="bg-[#1B4332] py-16 text-center text-[#F7F3E9]">
+        <h1 className="mb-4 text-5xl font-bold">
           Drinks
         </h1>
+
         <p className="mx-auto max-w-2xl text-lg opacity-90">
           Cocktails, classics, and experiments worth pouring again.
         </p>
       </section>
-      
-      {/*Add Drink*/}
-      <section className="mx-auto max-w-7xl px-8 py-16">
-        <Link href="/drinks/new">
-          <button className="rounded bg-[#1B4332] px-4 py-2 text-[#F7F3E9]">
-            + Add New Drink
-          </button>
-        </Link>
+
+      {/* SEARCH / ADD DRINK / GRID */}
+      <section className="py-4 text-[#F7F3E9]">
+        <DrinksContent drinks={drinks} />
       </section>
 
-      {/* GRID */}
-    <section className="mx-auto max-w-7xl px-8 py-16">
-        <div className="grid grid-cols-1 gap-8 md:grid-cols-3">
-            {drinks.slice(0, 30).map((drink) => (
-            <DisplayCard
-                key={drink.slug}
-                title={drink.name}
-                description={drink.description}
-                image={drink.image}
-                tags={drink.tags?.join(", ") ?? ""}
-                type="Drink"
-                slug={drink.slug}
-            />
-            ))}
-        </div>
-    </section>
+      <RealtimeRefresh />
+      </PageShell>
     </main>
   );
 }
