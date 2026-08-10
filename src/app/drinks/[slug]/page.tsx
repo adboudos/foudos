@@ -1,4 +1,3 @@
-import { drinks } from "@/data/drinks";
 import DrinkRecipe from "@/components/DrinkRecipe";
 import { getDrink } from "@/lib/db/drinks";
 import PageShell from "@/components/PageShell";

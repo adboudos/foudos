@@ -35,7 +35,6 @@ export default function Home() {
             <DisplayCard
               title="Coming Soon"
               description="Recipes are being crafted in the kitchen."
-              tags="Food"
               type="Food"
               slug="coming-soon"
             />
@@ -56,7 +55,6 @@ export default function Home() {
                     title={drink.name}
                     description={drink.description}
                     image={drink.image}
-                    tags={drink.tags?.join(", ") ?? ""}
                     type="Drink"
                     slug={drink.slug}
                 />
@@ -75,7 +73,6 @@ export default function Home() {
             <DisplayCard
               title="Coming Soon"
               description="Restaurant reviews are on the way."
-              tags="Restaurants"
               type="Restaurant"
               slug="coming-soon"
             />

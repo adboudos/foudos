@@ -4,14 +4,7 @@ import { useState } from "react";
 import Link from "next/link";
 import DisplayCard from "@/components/DisplayCard";
 import DrinkSearch from "@/components/DrinkSearch";
-
-type Drink = {
-  slug: string;
-  name: string;
-  description: string;
-  image: string;
-  tags?: string[];
-};
+import { Drink } from "@/types/drink"
 
 type SearchDrink = {
   slug: string;
@@ -54,9 +47,9 @@ export default function DrinksContent({
     <>
       {/* SEARCH / ADD DRINK */}
       <section className="mx-auto  bg-[#F7F3E9] sticky top-15 z-50">
-        <div className="mx-auto flex max-w-7xl flex-col gap-4 px-8 py-8 sm:flex-row sm:items-center sm:justify-between">
+        <div className="mx-auto flex max-w-7xl flex-col gap-4 px-4 py-4 sm:flex-row sm:items-center sm:justify-between">
           <Link href="/drinks/new">
-            <button className="rounded bg-[#1B4332] px-4 py-2 text-[#F7F3E9]">
+            <button className="rounded bg-[#1B4332] px-4 py-4 text-[#F7F3E9]">
               + Add Drink
             </button>
           </Link>
@@ -65,7 +58,6 @@ export default function DrinksContent({
         <div className="mx-auto border-t border-[#1B4332]/10" />
       </section>
 
-      {/* DIVIDER */}
 
 
       {/* GRID */}
@@ -84,7 +76,9 @@ export default function DrinksContent({
                 title={drink.name}
                 description={drink.description}
                 image={drink.image}
-                tags={drink.tags?.join(", ") ?? ""}
+                vibes={drink.vibes}
+                mainAlcohols={drink.mainAlcohols}
+                keyIngredients={drink.keyIngredients}
                 type="Drink"
                 slug={drink.slug}
               />

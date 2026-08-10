@@ -26,7 +26,7 @@ export default async function DrinksPage() {
       </section>
 
       {/* SEARCH / ADD DRINK / GRID */}
-      <section className="py-4 text-[#F7F3E9]">
+      <section className=" text-[#F7F3E9]">
         <DrinksContent drinks={drinks} />
       </section>
 

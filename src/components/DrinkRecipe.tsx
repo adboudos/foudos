@@ -26,7 +26,7 @@ export default function DrinkRecipe({ drink }: DrinkRecipeProps) {
           HERO / RECIPE HEADER
       ========================================================= */}
       <header className="px-6 pb-12 pt-16 text-center sm:px-8 sm:pb-16 sm:pt-20">
-        <div className="mx-auto max-w-5xl">
+        <div className="mx-auto max-w-6xl">
 
           {/* Eyebrow */}
           <p className="mb-5 text-sm font-semibold uppercase tracking-[0.25em] opacity-60">
@@ -218,7 +218,7 @@ export default function DrinkRecipe({ drink }: DrinkRecipeProps) {
       {/* =========================================================
           RECIPE
       ========================================================= */}
-      <section className="mx-auto max-w-6xl px-6 pt-8 pb-14 sm:px-8 sm:pt-10 sm:pb-20 border-t border-[#1B4332]/10" >
+      <section className="mx-auto max-w-7xl px-6 pt-8 pb-14 sm:px-8 sm:pt-10 sm:pb-20 border-t border-[#1B4332]/10" >
 
         <div className="grid grid-cols-1 gap-14 lg:grid-cols-[minmax(260px,0.7fr)_minmax(0,1.3fr)] lg:gap-20">
 
@@ -319,7 +319,7 @@ export default function DrinkRecipe({ drink }: DrinkRecipeProps) {
         <div className="mx-auto flex max-w-6xl flex-col gap-8 sm:flex-row sm:items-start sm:justify-between">
 
           {/* Recipe information */}
-          <div className="space-y-2 text-sm opacity-60">
+          <div className="space-y-2 text-sm opacity-60 flex flex-col sm:flex-row gap-4">
 
             {drink.contributor && (
               <p>
@@ -331,19 +331,25 @@ export default function DrinkRecipe({ drink }: DrinkRecipeProps) {
             )}
 
             {drink.createdDate && (
-              <p>
-                Created{" "}
-                {new Date(drink.createdDate).toLocaleDateString()}
-              </p>
+              <>
+                <span className="hidden opacity-30 sm:inline">•</span>
+                <span>
+                  Created{" "}
+                  {new Date(drink.createdDate).toLocaleDateString()}
+                </span>
+
+              </>
             )}
 
             {drink.updatedDate && (
-              <p>
-                Last updated{" "}
-                {new Date(drink.updatedDate).toLocaleDateString()}
-              </p>
+              <>
+                <span className="hidden opacity-30 sm:inline">•</span>
+                <span>
+                  Last updated{" "}
+                  {new Date(drink.updatedDate).toLocaleDateString()}
+                </span>
+              </>
             )}
-
           </div>
 
           {/* Actions */}
