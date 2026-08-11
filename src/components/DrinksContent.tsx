@@ -70,7 +70,7 @@ export default function DrinksContent({
     {/* GRID */}
     <section className="mx-auto max-w-6xl px-8 py-6">
       <div className="grid grid-cols-1 gap-8 md:grid-cols-3">
-        {drinks.slice(0, 30).map((drink) => (
+        {filteredDrinks.slice(0, 30).map((drink) => (
           <DisplayCard
             key={drink.slug}
             title={drink.name}
