@@ -73,4 +73,9 @@ export async function deleteDrink(slug: string) {
   const { error } = await supabase
     .from("drinks")
     .delete()
-    .eq("slug", slug
+    .eq("slug", slug);
+
+  if (error) throw error;
+
+  return true;
+}
