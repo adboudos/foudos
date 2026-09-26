@@ -58,7 +58,7 @@ export default function DrinksContent({
         </Link>
         
         {isSearching && (
-          <div className="mb-4 text-sm text-[#1B4332]/60">
+          <div className="mb-4 text-m font-bold text-[#1B4332]">
             {filteredDrinks.length === 0
               ? "No drinks found."
               : `${filteredDrinks.length} ${
@@ -89,7 +89,7 @@ export default function DrinksContent({
             mainAlcohols={drink.mainAlcohols}
             keyIngredients={drink.keyIngredients}
             vibes={drink.vibes}
-            type="Drink"
+            type="drinks"
             slug={drink.slug}
           />
         ))}

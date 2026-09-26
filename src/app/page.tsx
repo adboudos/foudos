@@ -9,8 +9,6 @@ export default async function Home() {
 
   return (
     <main className="min-h-screen bg-[#F7F3E9]">
-      
-      <Navbar />
 
       {/* HERO */}
       <section className="bg-[#1B4332] py-16 text-center text-[#F7F3E9]">
@@ -35,7 +33,7 @@ export default async function Home() {
             <DisplayCard
               title="Coming Soon"
               description="Recipes are being crafted in the kitchen."
-              type="Food"
+              type="food"
               slug="coming-soon"
             />
           </div>
@@ -58,7 +56,7 @@ export default async function Home() {
                     vibes={drink.vibes}
                     mainAlcohols={drink.mainAlcohols}
                     keyIngredients={drink.keyIngredients}
-                    type="Drink"
+                    type="drinks"
                     slug={drink.slug}
                 />
             ))}
@@ -76,7 +74,7 @@ export default async function Home() {
             <DisplayCard
               title="Coming Soon"
               description="Restaurant reviews are on the way."
-              type="Restaurant"
+              type="restaurants"
               slug="coming-soon"
             />
           </div>

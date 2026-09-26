@@ -18,10 +18,11 @@ export default function DisplayCard({
   mainAlcohols,
   keyIngredients,
   vibes,
-  slug,
+  slug, 
+  type
 }: RecipeCardProps) {
   return (
-    <Link href={`/drinks/${slug}`} className="h-full">
+    <Link href={`/${type}/${slug}`} className="h-full">
       <div className="flex h-full flex-col overflow-hidden rounded-xl bg-white p-5 shadow-md transition hover:-translate-y-1 hover:shadow-xl">
 
         {/* Title */}

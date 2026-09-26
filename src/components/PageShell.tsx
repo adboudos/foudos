@@ -8,7 +8,6 @@ export default function PageShell({
   return (
     
     <div className="min-h-screen bg-[#F7F3E9] text-[#1B4332]">
-      <Navbar />
       <div className="">
         {children}
       </div>

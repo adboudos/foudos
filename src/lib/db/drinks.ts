@@ -19,7 +19,6 @@ export async function getDrink(slug: string) {
   const supabase = createServerSupabaseClient();
 
   if (!slug) return null;
-  console.log("Fetching drink with slug:", slug);
 
   const { data, error } = await supabase
     .from("drinks")
