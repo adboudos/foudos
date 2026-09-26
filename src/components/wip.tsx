@@ -12,7 +12,7 @@ export default function WipPage() {
 
         {/* Subtitle */}
         <p className="text-lg text-gray-700 leading-relaxed mb-10">
-          We’re currently building out the <span className="font-semibold text-[#1B4332]">Drinks</span> section.
+          We’re currently building out the <span className="font-semibold text-[#1B4332]">Drinks & Food</span> sections.
           <br /><br />
           For now, let's go back to the home page
         </p>
