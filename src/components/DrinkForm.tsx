@@ -3,7 +3,6 @@
 
 import { useState } from "react";
 import { Drink } from "@/types/drink";
-import PageShell from "@/components/PageShell";
 import {
   createDrinkAction,
   updateDrinkAction,
@@ -244,8 +243,8 @@ export default function DrinkForm({ drink }: Props) {
   };
 
   return (
-    <PageShell>
-      <div className="mx-auto w-full max-w-4xl px-6 py-6 sm:px-8 lg:px-12">
+      <main className="bg-[#F7F3E9] text-[#1B4332]">
+      <div className="mx-auto w-full max-w-4xl px-6 py-6 sm:px-8 lg:px-12 bg-[#F7F3E9]">
 
         {/* HEADER */}
         <section className="mb-6">
@@ -721,7 +720,7 @@ export default function DrinkForm({ drink }: Props) {
           </div>
         </div>
       </div>
-    </PageShell>
+      </main>
   );
 }
 

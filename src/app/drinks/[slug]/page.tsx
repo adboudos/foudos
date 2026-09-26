@@ -1,6 +1,5 @@
 import DrinkRecipe from "@/components/DrinkRecipe";
 import { getDrink } from "@/lib/db/drinks";
-import PageShell from "@/components/PageShell";
 
 export const dynamic = "force-dynamic";
 
@@ -15,13 +14,11 @@ export default async function Page({
 
   if (!drink) {
     return (
-      <PageShell>
         <div className="p-20 text-center text-[#1B4332]">
             Drink not found
         </div>
-      </PageShell>
     );
   }
 
-  return <PageShell><DrinkRecipe drink={drink} /></PageShell>;
+  return <DrinkRecipe drink={drink} />;
 }

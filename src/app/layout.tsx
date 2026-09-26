@@ -35,9 +35,9 @@ export default function RootLayout({
       <Analytics />
       <SpeedInsights />
       
-      <body className="min-h-full flex flex-col">
+      <body className="min-h-full flex flex-col bg-[#F7F3E9] text-[#1B4332]">
         <Navbar />
-        {children}
+          {children}
         <Footer />
       </body>
     </html>

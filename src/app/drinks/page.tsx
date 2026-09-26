@@ -4,7 +4,6 @@ import { getAllDrinks } from "@/lib/db/drinks";
 import Link from "next/link";
 import RealtimeRefresh from "@/components/RealtimeRefresh";
 import DrinksContent from "@/components/DrinksContent";
-import PageShell from "@/components/PageShell";
 
 export const dynamic = "force-dynamic";
 
@@ -13,7 +12,6 @@ export default async function DrinksPage() {
 
   return (
     <main>
-      <PageShell>
       {/* HEADER */}
       <section className="bg-[#1B4332] py-16 text-center text-[#F7F3E9]">
         <h1 className="mb-4 text-5xl font-bold">
@@ -26,12 +24,11 @@ export default async function DrinksPage() {
       </section>
 
       {/* SEARCH / ADD DRINK / GRID */}
-      <section className=" text-[#F7F3E9]">
+      <section className=" bg-[#F7F3E9] text-[#F7F3E9]">
         <DrinksContent drinks={drinks} />
       </section>
 
       <RealtimeRefresh />
-      </PageShell>
     </main>
   );
 }
