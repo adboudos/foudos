@@ -1,11 +1,24 @@
-import Navbar from "@/components/NavBar";
-import WipPage from "@/components/wip";
+import FoodRecipe from "@/components/foodComponents/FoodRecipe";
+import { getFood } from "@/lib/db/food";
 
+export const dynamic = "force-dynamic";
 
-export default function Page() {
+export default async function Page({
+  params,
+}: {
+  params: Promise<{ slug: string }>;
+}) {
+  const { slug } = await params;
+
+  const food = await getFood(slug)
+
+  if (!food) {
     return (
-        <main className="min-h-screen bg-[#F7F3E9]">
-            <WipPage />
-        </main>
+        <div className="p-20 text-center bg-[#F7F3E9] text-[#1B4332]">
+            Recipe not found
+        </div>
     );
+  }
+
+  return <FoodRecipe food={food} />;
 }

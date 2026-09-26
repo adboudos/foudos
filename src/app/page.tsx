@@ -1,11 +1,12 @@
-import Navbar from "@/components/NavBar";
 import DisplayCard from "@/components/DisplayCard";
 import { SITE } from "@/lib/site";
 import Link from "next/link";
 import { getAllDrinks } from "@/lib/db/drinks"
+import { getAllFoods } from "@/lib/db/food";
 
 export default async function Home() {
   const drinks = await getAllDrinks();
+  const foods = await getAllFoods()
 
   return (
     <main className="min-h-screen bg-[#F7F3E9]">
@@ -29,13 +30,22 @@ export default async function Home() {
             Food
           </Link>
         <div className="mb-6 h-px w-full bg-[#1B4332]/20" />          
-        <div className="flex flex-col gap-4">
-            <DisplayCard
-              title="Coming Soon"
-              description="Recipes are being crafted in the kitchen."
-              type="food"
-              slug="coming-soon"
-            />
+          <div className="flex flex-col gap-4">
+            {foods.slice(0,3).map((food) => (
+                <DisplayCard
+                    key={food.slug}
+                    title={food.name}
+                    description={food.description}
+                    image={food.image}
+                    vibes={food.vibes}
+                    titleOne="Cuisine"
+                    valuesOne={food.cuisine}
+                    titleTwo="Course"
+                    valuesTwo={food.course ? [food.course] : []}
+                    type="food"
+                    slug={food.slug}
+                />
+            ))}
           </div>
         </div>
         
@@ -54,8 +64,10 @@ export default async function Home() {
                     description={drink.description}
                     image={drink.image}
                     vibes={drink.vibes}
-                    mainAlcohols={drink.mainAlcohols}
-                    keyIngredients={drink.keyIngredients}
+                    titleOne="Main Alcohols"
+                    valuesOne={drink.mainAlcohols}
+                    titleTwo="Key Ingredients"
+                    valuesTwo={drink.keyIngredients}
                     type="drinks"
                     slug={drink.slug}
                 />

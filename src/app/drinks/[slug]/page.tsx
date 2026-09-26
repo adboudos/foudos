@@ -1,4 +1,4 @@
-import DrinkRecipe from "@/components/DrinkRecipe";
+import DrinkRecipe from "@/components/drinkComponents/DrinkRecipe";
 import { getDrink } from "@/lib/db/drinks";
 
 export const dynamic = "force-dynamic";
@@ -14,7 +14,7 @@ export default async function Page({
 
   if (!drink) {
     return (
-        <div className="p-20 text-center text-[#1B4332]">
+        <div className="p-20 text-center bg-[#F7F3E9]text-[#1B4332]">
             Drink not found
         </div>
     );

@@ -3,7 +3,7 @@ import NavBar from "@/components/NavBar";
 import { getAllDrinks } from "@/lib/db/drinks";
 import Link from "next/link";
 import RealtimeRefresh from "@/components/RealtimeRefresh";
-import DrinksContent from "@/components/DrinksContent";
+import DrinksContent from "@/components/drinkComponents/DrinksContent";
 
 export const dynamic = "force-dynamic";
 

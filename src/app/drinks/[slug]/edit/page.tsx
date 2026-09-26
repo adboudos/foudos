@@ -1,4 +1,4 @@
-import DrinkForm from "@/components/DrinkForm";
+import DrinkForm from "@/components/drinkComponents/DrinkForm";
 import { getDrink } from "@/lib/db/drinks";
 
 export default async function EditDrinkPage({

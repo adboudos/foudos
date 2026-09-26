@@ -3,7 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import DisplayCard from "@/components/DisplayCard";
-import DrinkSearch from "@/components/DrinkSearch";
+import DrinkSearch from "@/components/drinkComponents/DrinkSearch";
 import { Drink } from "@/types/drink"
 
 type SearchDrink = {
@@ -86,8 +86,10 @@ export default function DrinksContent({
             title={drink.name}
             description={drink.description}
             image={drink.image}
-            mainAlcohols={drink.mainAlcohols}
-            keyIngredients={drink.keyIngredients}
+            titleOne="Main Alcohols"
+            valuesOne={drink.mainAlcohols}
+            titleTwo="Key Ingredients"
+            valuesTwo={drink.keyIngredients}
             vibes={drink.vibes}
             type="drinks"
             slug={drink.slug}

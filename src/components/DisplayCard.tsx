@@ -5,8 +5,10 @@ type RecipeCardProps = {
   title: string;
   description: string;
   image?: string;
-  mainAlcohols?: string[];
-  keyIngredients?: string[];
+  titleOne?: string;
+  valuesOne?: string[];
+  titleTwo?: string;
+  valuesTwo?: string[];
   vibes?: string[];
   slug: string;
   type: string;
@@ -15,8 +17,10 @@ type RecipeCardProps = {
 export default function DisplayCard({
   title,
   description,
-  mainAlcohols,
-  keyIngredients,
+  titleOne,
+  valuesOne,
+  titleTwo,
+  valuesTwo,
   vibes,
   slug, 
   type
@@ -42,19 +46,19 @@ export default function DisplayCard({
         <div className="space-y-3">
 
           {/* Main Alcohols */}
-          {mainAlcohols && mainAlcohols.length > 0 && (
+          {valuesOne && valuesOne.length > 0 && (
             <div>
               <p className="mb-1.5 text-[11px] font-bold uppercase tracking-wider text-[#1B4332]/70">
-                Main Alcohols
+                {titleOne}
               </p>
 
               <div className="flex flex-wrap gap-1.5">
-                {mainAlcohols.map((alcohol) => (
+                {valuesOne.map((value) => (
                   <span
-                    key={alcohol}
+                    key={value}
                     className="rounded-full bg-[#1B4332]/10 px-2.5 py-1 text-xs font-medium leading-none text-[#1B4332]"
                   >
-                    {alcohol}
+                    {value}
                   </span>
                 ))}
               </div>
@@ -62,19 +66,19 @@ export default function DisplayCard({
           )}
 
           {/* Key Ingredients */}
-          {keyIngredients && keyIngredients.length > 0 && (
+          {valuesTwo && valuesTwo.length > 0 && (
             <div>
               <p className="mb-1.5 text-[11px] font-bold uppercase tracking-wider text-[#1B4332]/70">
-                Key Ingredients
+                {titleTwo}
               </p>
 
               <div className="flex flex-wrap gap-1.5">
-                {keyIngredients.map((ingredient) => (
+                {valuesTwo.map((value) => (
                   <span
-                    key={ingredient}
+                    key={value}
                     className="rounded-full bg-[#1B4332]/10 px-2.5 py-1 text-xs font-medium leading-none text-[#1B4332]"
                   >
-                    {ingredient}
+                    {value}
                   </span>
                 ))}
               </div>
