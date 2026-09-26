@@ -4,9 +4,9 @@ import { SITE } from "@/lib/site";
 import Link from "next/link";
 import { getAllDrinks } from "@/lib/db/drinks"
 
-const drinks = await getAllDrinks();
+export default async function Home() {
+  const drinks = await getAllDrinks();
 
-export default function Home() {
   return (
     <main className="min-h-screen bg-[#F7F3E9]">
       

@@ -56,7 +56,17 @@ export default function DrinksContent({
             + Add New Drink
           </button>
         </Link>
-
+        
+        {isSearching && (
+          <div className="mb-4 text-sm text-[#1B4332]/60">
+            {filteredDrinks.length === 0
+              ? "No drinks found."
+              : `${filteredDrinks.length} ${
+                  filteredDrinks.length === 1 ? "drink" : "drinks"
+                } found`}
+          </div>
+        )}
+        
         <DrinkSearch onResults={handleSearchResults} />
 
       </div>

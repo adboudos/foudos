@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { useState } from "react";
 import { SITE } from "@/lib/site";
 
@@ -14,9 +15,16 @@ export default function Navbar() {
         {/* LOGO / SITE NAME */}
         <Link
           href="/"
-          className="text-xl font-bold"
+          className="flex items-center gap-2 text-xl font-bold"
           onClick={() => setMenuOpen(false)}
         >
+          <Image
+            src="/foudos-logo.svg"
+            alt=""
+            width={32}
+            height={32}
+            priority
+          />
           {SITE.name}
         </Link>
 
