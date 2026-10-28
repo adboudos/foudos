@@ -17,7 +17,7 @@ export default async function Home() {
           {SITE.name}
         </h1>
         <p className="mx-auto max-w-3xl text-xl">
-          {SITE.tagline}
+          Food, Drink, and Restaurant sharing for the Foudos family &amp; friends
         </p>
       </section>
 
