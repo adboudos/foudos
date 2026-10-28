@@ -8,6 +8,8 @@ import {
 } from "@/app/actions/food";
 import { useRouter } from "next/navigation";
 import { Ingredient } from "@/types/ingredient";
+import type { ExtractedRecipe } from "@/types/extractedRecipe";
+import RecipeImageImport from "./RecipeImageImport";
 
 type Props = {
   food?: Food;
@@ -140,6 +142,24 @@ export default function FoodForm({ food }: Props) {
   };
 
   // ---------------------------
+  // IMPORT FROM PHOTO
+  // Only fills fields the photo actually provided; image, link,
+  // contributor and rating are never touched.
+  // ---------------------------
+  const applyExtracted = (recipe: ExtractedRecipe) => {
+    if (recipe.name) setName(recipe.name);
+    if (recipe.description) setDescription(recipe.description);
+    if (recipe.course) setCourse(recipe.course);
+    if (recipe.cuisine.length) setCuisine(recipe.cuisine.join(", "));
+    if (recipe.tags.length) setTags(recipe.tags.join(", "));
+    if (recipe.cookTime) setCookTime(recipe.cookTime);
+    if (recipe.servings) setServings(recipe.servings);
+    if (recipe.ingredients.length) setIngredients(recipe.ingredients);
+    if (recipe.steps.length) setSteps(recipe.steps);
+    if (recipe.notes) setNotes(recipe.notes);
+  };
+
+  // ---------------------------
   // SLUG
   // ---------------------------
   const generateSlug = (text: string) =>
@@ -248,6 +268,13 @@ export default function FoodForm({ food }: Props) {
         </section>
 
         <div className="space-y-7">
+
+          {/* =========================
+              IMPORT FROM PHOTO (new recipes only)
+          ========================== */}
+          {!food && (
+            <RecipeImageImport onExtracted={applyExtracted} />
+          )}
 
           {/* =========================
               BASIC INFORMATION
