@@ -1,5 +1,5 @@
 export const SITE = {
   name: "Foudos",
-  tagline: "Boudos Family Food, Drink, and Restaurant Sharing",
+  tagline: "Food, Drink, and Restaurant sharing for the Foudos family & friends",
 };
 
