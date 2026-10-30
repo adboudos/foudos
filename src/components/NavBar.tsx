@@ -4,9 +4,11 @@ import Link from "next/link";
 import Image from "next/image";
 import { useState } from "react";
 import { SITE } from "@/lib/site";
+import { useAccess } from "@/components/auth/AccessProvider";
 
 export default function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
+  const { loading, userId } = useAccess();
 
   return (
     <nav className="bg-[#1B4332] text-[#F7F3E9] sticky top-0 z-50">
@@ -57,6 +59,19 @@ export default function Navbar() {
           >
             Restaurants
           </Link>
+
+          {!loading &&
+            (userId ? (
+              <form action="/auth/signout" method="post">
+                <button type="submit" className="transition hover:text-white">
+                  Sign out
+                </button>
+              </form>
+            ) : (
+              <Link href="/login" className="transition hover:text-white">
+                Sign in
+              </Link>
+            ))}
         </div>
 
         {/* MOBILE MENU BUTTON */}
@@ -123,10 +138,27 @@ export default function Navbar() {
             <Link
               href="/restaurants"
               onClick={() => setMenuOpen(false)}
-              className="py-3"
+              className="border-b border-[#F7F3E9]/10 py-3"
             >
               Restaurants
             </Link>
+
+            {!loading &&
+              (userId ? (
+                <form action="/auth/signout" method="post">
+                  <button type="submit" className="w-full py-3 text-left">
+                    Sign out
+                  </button>
+                </form>
+              ) : (
+                <Link
+                  href="/login"
+                  onClick={() => setMenuOpen(false)}
+                  className="py-3"
+                >
+                  Sign in
+                </Link>
+              ))}
           </div>
         </div>
       )}

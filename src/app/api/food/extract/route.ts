@@ -1,4 +1,6 @@
 import { NextResponse } from "next/server";
+import { getAccess } from "@/lib/access";
+import { canCreate } from "@/lib/roles";
 import {
   EXTRACTION_SYSTEM_PROMPT,
   EXTRACTION_TOOL,
@@ -24,7 +26,7 @@ const ALLOWED_TYPES = new Set([
 /* --------------------------------
    BEST-EFFORT RATE LIMIT
    In-memory, so it is per server instance and resets on cold start. It
-   slows down casual abuse only. See the notes on real protection.
+   slows down casual abuse only. Sign-in is the real gate.
 -------------------------------- */
 const WINDOW_MS = 10 * 60 * 1000;
 const MAX_REQUESTS_PER_WINDOW = 10;
@@ -57,6 +59,17 @@ function fail(message: string, status: number) {
 }
 
 export async function POST(request: Request) {
+  // Each scan costs money, so only signed-in friends and family can use it.
+  const access = await getAccess();
+
+  if (!access.userId) {
+    return fail("Please sign in to scan recipes.", 401);
+  }
+
+  if (!canCreate(access.role)) {
+    return fail("Your account can't add recipes.", 403);
+  }
+
   const apiKey = process.env.ANTHROPIC_API_KEY;
 
   if (!apiKey) {
@@ -64,11 +77,8 @@ export async function POST(request: Request) {
     return fail("Recipe scanning isn't set up yet.", 500);
   }
 
-  const ip =
-    request.headers.get("x-forwarded-for")?.split(",")[0]?.trim() ||
-    "unknown";
-
-  if (isRateLimited(ip)) {
+  // Limit per person rather than per network address.
+  if (isRateLimited(access.userId)) {
     return fail(
       "That's a lot of scans in a short time. Please try again in a few minutes.",
       429

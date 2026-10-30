@@ -3,6 +3,7 @@
 import { createFood, updateFood, deleteFood } from "@/lib/db/food";
 import type { Food } from "@/types/food";
 import { revalidatePath } from "next/cache";
+import { requireWriter } from "@/lib/access";
 
 function revalidateFoodList() {
   revalidatePath("/");
@@ -10,6 +11,8 @@ function revalidateFoodList() {
 }
 
 export async function updateFoodAction(slug: string, food: Food) {
+  await requireWriter();
+
   const updatedFood = await updateFood(slug, food);
 
   revalidateFoodList();
@@ -20,6 +23,8 @@ export async function updateFoodAction(slug: string, food: Food) {
 }
 
 export async function deleteFoodAction(slug: string) {
+  await requireWriter();
+
   const result = await deleteFood(slug);
 
   revalidateFoodList();
@@ -29,6 +34,8 @@ export async function deleteFoodAction(slug: string) {
 }
 
 export async function createFoodAction(food: Food) {
+  await requireWriter();
+
   const newFood = await createFood(food);
 
   revalidateFoodList();

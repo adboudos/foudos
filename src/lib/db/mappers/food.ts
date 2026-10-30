@@ -4,6 +4,7 @@ export function mapFood(row: FoodRow): Food {
   return {
     createdDate: new Date(row.created_at ?? ""),
     updatedDate: new Date(row.updated_at ?? ""),
+    createdBy: row.created_by ?? undefined,
     slug: row.slug,
     name: row.name,
     description: row.description ?? "",

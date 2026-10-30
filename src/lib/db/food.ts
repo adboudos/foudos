@@ -1,4 +1,5 @@
 import { createServerSupabaseClient } from "../supabase/server";
+import { createAuthedSupabaseClient } from "../supabase/authed";
 import { mapFood, toFoodRow } from "./mappers/food";
 import type { Food } from "@/types/food";
 
@@ -33,7 +34,7 @@ export async function getFood(slug: string) {
 }
 
 export async function createFood(food: Food) {
-  const supabase = createServerSupabaseClient();
+  const supabase = await createAuthedSupabaseClient();
 
   const { data, error } = await supabase
     .from("food")
@@ -47,7 +48,7 @@ export async function createFood(food: Food) {
 }
 
 export async function updateFood(slug: string, food: Food) {
-  const supabase = createServerSupabaseClient();
+  const supabase = await createAuthedSupabaseClient();
 
   const { data, error } = await supabase
     .from("food")
@@ -62,14 +63,21 @@ export async function updateFood(slug: string, food: Food) {
 }
 
 export async function deleteFood(slug: string) {
-  const supabase = createServerSupabaseClient();
+  const supabase = await createAuthedSupabaseClient();
 
-  const { error } = await supabase
+  const { data, error } = await supabase
     .from("food")
     .delete()
-    .eq("slug", slug);
+    .eq("slug", slug)
+    .select("id");
 
   if (error) throw error;
+
+  // Row Level Security hides rows you may not delete, so "nothing deleted"
+  // means this person isn't allowed to remove it.
+  if (!data || data.length === 0) {
+    throw new Error("You can only delete recipes you added.");
+  }
 
   return true;
 }

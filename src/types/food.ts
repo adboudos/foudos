@@ -9,6 +9,7 @@ export type Food = {
     link?: string;
     createdDate: Date;
     updatedDate: Date;
+    createdBy?: string;
 
     course?: string;
     cuisine?: string[];
@@ -40,6 +41,7 @@ export type FoodRow = {
   link: string | null;
   updated_at: Timestamp | null;
   created_at: Timestamp | null;
+  created_by: string | null;
 
   course: string | null;
   cuisine: string[] | null;

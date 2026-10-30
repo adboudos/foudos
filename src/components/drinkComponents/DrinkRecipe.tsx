@@ -4,6 +4,8 @@ import Link from "next/link";
 import { Drink } from "@/types/drink";
 import { deleteDrinkAction } from "@/app/actions/drinks";
 import { useRouter } from "next/navigation";
+import { useAccess } from "@/components/auth/AccessProvider";
+import { canModify } from "@/lib/roles";
 
 type DrinkRecipeProps = {
   drink: Drink;
@@ -11,6 +13,8 @@ type DrinkRecipeProps = {
 
 export default function DrinkRecipe({ drink }: DrinkRecipeProps) {
   const router = useRouter();
+  const { userId, role } = useAccess();
+  const canEdit = canModify(role, userId, drink.createdBy);
 
   const handleDelete = async () => {
     if (confirm("Are you sure you want to delete this drink?")) {
@@ -353,21 +357,23 @@ export default function DrinkRecipe({ drink }: DrinkRecipeProps) {
           </div>
 
           {/* Actions */}
-          <div className="flex items-center gap-5 text-sm">
-            <Link
-              href={`/drinks/${drink.slug}/edit`}
-              className="font-medium underline underline-offset-4 opacity-70 transition hover:opacity-100"
-            >
-              Edit recipe
-            </Link>
+          {canEdit && (
+            <div className="flex items-center gap-5 text-sm">
+              <Link
+                href={`/drinks/${drink.slug}/edit`}
+                className="font-medium underline underline-offset-4 opacity-70 transition hover:opacity-100"
+              >
+                Edit recipe
+              </Link>
 
-            <button
-              onClick={handleDelete}
-              className="text-red-700/70 transition hover:text-red-700"
-            >
-              Delete
-            </button>
-          </div>
+              <button
+                onClick={handleDelete}
+                className="text-red-700/70 transition hover:text-red-700"
+              >
+                Delete
+              </button>
+            </div>
+          )}
 
         </div>
       </footer>
