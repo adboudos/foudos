@@ -141,6 +141,6 @@ export async function sendSuggestionAction(
 
   return {
     status: "success",
-    message: "Thanks for your suggestion! We read every one.",
+    message: "Thanks for your suggestion! We may read some of them.",
   };
 }

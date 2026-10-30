@@ -181,7 +181,7 @@ export async function POST(request: Request) {
 
     if (apiResponse.status === 400) {
       return fail(
-        "That image couldn't be read. Try a clearer photo or a screenshot.",
+        "That image couldn't be read. Try a clearer photo or a screenshot. Or I might just be poor and my API spend limit is reached lol venmo @alex-boudos",
         422
       );
     }
