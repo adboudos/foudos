@@ -11,7 +11,8 @@ export default async function LoginPage({
   const { next, error } = await searchParams;
 
   return (
-    <main className="mx-auto w-full max-w-md px-6 py-16">
+    <main className="min-h-screen bg-[#F7F3E9] px-6 py-16 text-[#1B4332]">
+      <div className="mx-auto w-full max-w-md">
       <h1 className="text-3xl font-bold text-[#1B4332]">Sign in</h1>
 
       <p className="mt-2 text-sm text-[#1B4332]/70">
@@ -27,6 +28,7 @@ export default async function LoginPage({
         We only use your email to sign you in. Please don&apos;t put private or
         sensitive information in recipes, notes or anywhere else on the site.
       </p>
+      </div>
     </main>
   );
 }

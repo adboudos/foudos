@@ -99,7 +99,7 @@ export default function LoginForm({ next, initialError = false }: Props) {
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           placeholder="you@example.com"
-          className="w-full rounded-lg border border-[#1B4332]/20 bg-white px-3 py-2 text-sm outline-none focus:border-[#1B4332]"
+          className="w-full rounded-lg border border-[#1B4332]/20 bg-white px-3 py-2 text-sm text-[#1B4332] outline-none [color-scheme:light] placeholder:text-[#1B4332]/40 focus:border-[#1B4332]"
         />
 
         <button
