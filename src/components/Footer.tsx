@@ -6,6 +6,7 @@ const navigation = [
   { href: "/food", label: "Food" },
   { href: "/drinks", label: "Drinks" },
   { href: "/restaurants", label: "Restaurants" },
+  { href: "/suggestions", label: "Suggestions" },
 ];
 
 export default function Footer() {
