@@ -2,6 +2,8 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import { useAccess } from "@/components/auth/AccessProvider";
+import { canCreate } from "@/lib/roles";
 import DisplayCard from "@/components/DisplayCard";
 import DrinkSearch from "@/components/drinkComponents/DrinkSearch";
 import { Drink } from "@/types/drink"
@@ -23,6 +25,7 @@ export default function DrinksContent({
 }: DrinksContentProps) {
   const [filteredDrinks, setFilteredDrinks] = useState<Drink[]>(drinks);
   const [isSearching, setIsSearching] = useState(false);
+  const { loading, userId, role } = useAccess();
 
   function handleSearchResults(results: SearchDrink[]) {
     if (results.length === 0) {
@@ -49,13 +52,24 @@ export default function DrinksContent({
     <section className="mx-auto max-w-6xl px-8 py-6">
       <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
 
-        <Link href="/drinks/new">
-          <button
-            className="h-10 rounded-lg bg-[#1B4332] px-4 text-sm font-medium text-[#F7F3E9] transition hover:bg-[#2D6A4F]"
+        {canCreate(role) ? (
+          <Link href="/drinks/new">
+            <button
+              className="h-10 rounded-lg bg-[#1B4332] px-4 text-sm font-medium text-[#F7F3E9] transition hover:bg-[#2D6A4F]"
+            >
+              + Add New Drink
+            </button>
+          </Link>
+        ) : !loading && !userId ? (
+          <Link
+            href="/login?next=/drinks/new"
+            className="text-sm font-medium underline underline-offset-4 opacity-70 transition hover:opacity-100"
           >
-            + Add New Drink
-          </button>
-        </Link>
+            Sign in to add
+          </Link>
+        ) : (
+          <span />
+        )}
         
         {isSearching && (
           <div className="mb-4 text-m font-bold text-[#1B4332]">

@@ -9,6 +9,7 @@ export type Drink = {
     link?: string;
     createdDate: Date;
     updatedDate: Date;
+    createdBy?: string;
 
     mainAlcohols: string[];
     keyIngredients: string[];
@@ -39,6 +40,7 @@ export type DrinkRow = {
   link: string | null;
   updated_at: Timestamp | null;
   created_at: Timestamp | null;
+  created_by: string | null;
 
   main_alcohols: string[] | null;
   key_ingredients: string[] | null;

@@ -2,6 +2,8 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import { useAccess } from "@/components/auth/AccessProvider";
+import { canCreate } from "@/lib/roles";
 import DisplayCard from "@/components/DisplayCard";
 import FoodSearch from "@/components/foodComponents/FoodSearch";
 import { Food } from "@/types/food"
@@ -23,6 +25,7 @@ export default function FoodContent({
 }: FoodContentProps) {
   const [filteredFoods, setFilteredFoods] = useState<Food[]>(foods);
   const [isSearching, setIsSearching] = useState(false);
+  const { loading, userId, role } = useAccess();
 
   function handleSearchResults(results: SearchFood[]) {
     if (results.length === 0) {
@@ -49,13 +52,24 @@ export default function FoodContent({
     <section className="mx-auto max-w-6xl px-8 py-6">
       <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
 
-        <Link href="/food/new">
-          <button
-            className="h-10 rounded-lg bg-[#1B4332] px-4 text-sm font-medium text-[#F7F3E9] transition hover:bg-[#2D6A4F]"
+        {canCreate(role) ? (
+          <Link href="/food/new">
+            <button
+              className="h-10 rounded-lg bg-[#1B4332] px-4 text-sm font-medium text-[#F7F3E9] transition hover:bg-[#2D6A4F]"
+            >
+              + Add New Food
+            </button>
+          </Link>
+        ) : !loading && !userId ? (
+          <Link
+            href="/login?next=/food/new"
+            className="text-sm font-medium underline underline-offset-4 opacity-70 transition hover:opacity-100"
           >
-            + Add New Food
-          </button>
-        </Link>
+            Sign in to add
+          </Link>
+        ) : (
+          <span />
+        )}
         
         {isSearching && (
           <div className="mb-4 text-m font-bold text-[#1B4332]">

@@ -1,4 +1,5 @@
 import { createServerSupabaseClient } from "../supabase/server";
+import { createAuthedSupabaseClient } from "../supabase/authed";
 import { mapDrink } from "./mappers/drinks";
 
 
@@ -38,7 +39,7 @@ import { toDrinkRow } from "./mappers/drinks";
 import type { Drink } from "@/types/drink";
 
 export async function createDrink(drink: Drink) {
-  const supabase = createServerSupabaseClient();
+  const supabase = await createAuthedSupabaseClient();
 
   const { data, error } = await supabase
     .from("drinks")
@@ -52,7 +53,7 @@ export async function createDrink(drink: Drink) {
 }
 
 export async function updateDrink(slug: string, drink: Drink) {
-  const supabase = createServerSupabaseClient();
+  const supabase = await createAuthedSupabaseClient();
 
   const { data, error } = await supabase
     .from("drinks")
@@ -67,14 +68,19 @@ export async function updateDrink(slug: string, drink: Drink) {
 }
 
 export async function deleteDrink(slug: string) {
-  const supabase = createServerSupabaseClient();
+  const supabase = await createAuthedSupabaseClient();
 
-  const { error } = await supabase
+  const { data, error } = await supabase
     .from("drinks")
     .delete()
-    .eq("slug", slug);
+    .eq("slug", slug)
+    .select("id");
 
   if (error) throw error;
+
+  if (!data || data.length === 0) {
+    throw new Error("You can only delete drinks you added.");
+  }
 
   return true;
 }
