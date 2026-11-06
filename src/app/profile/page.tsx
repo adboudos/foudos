@@ -96,6 +96,15 @@ export default async function ProfilePage({
         <RecipeList title="Your recipes" type="food" items={foods} />
         <RecipeList title="Your drinks" type="drinks" items={drinks} />
 
+        <form action="/auth/signout" method="post" className="mt-10">
+          <button
+            type="submit"
+            className="rounded-lg border border-[#1B4332] px-4 py-2 text-sm font-medium text-[#1B4332] transition hover:bg-[#1B4332]/5"
+          >
+            Sign out
+          </button>
+        </form>
+
         <p className="mt-8 text-xs text-[#1B4332]/60">
           Please don&apos;t put private or sensitive information in your name,
           recipes or notes.

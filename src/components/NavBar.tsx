@@ -66,11 +66,6 @@ export default function Navbar() {
                 <Link href="/profile" className="transition hover:text-white">
                   Profile
                 </Link>
-                <form action="/auth/signout" method="post">
-                  <button type="submit" className="transition hover:text-white">
-                    Sign out
-                  </button>
-                </form>
               </>
             ) : (
               <Link href="/login" className="transition hover:text-white">
@@ -158,11 +153,6 @@ export default function Navbar() {
                   >
                     Profile
                   </Link>
-                  <form action="/auth/signout" method="post">
-                    <button type="submit" className="w-full py-3 text-left">
-                      Sign out
-                    </button>
-                  </form>
                 </>
               ) : (
                 <Link
