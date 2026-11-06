@@ -62,11 +62,11 @@ export default function Navbar() {
 
           {!loading &&
             (userId ? (
-              <form action="/auth/signout" method="post">
-                <button type="submit" className="transition hover:text-white">
-                  Sign out
-                </button>
-              </form>
+              <>
+                <Link href="/profile" className="transition hover:text-white">
+                  Profile
+                </Link>
+              </>
             ) : (
               <Link href="/login" className="transition hover:text-white">
                 Sign in
@@ -145,11 +145,15 @@ export default function Navbar() {
 
             {!loading &&
               (userId ? (
-                <form action="/auth/signout" method="post">
-                  <button type="submit" className="w-full py-3 text-left">
-                    Sign out
-                  </button>
-                </form>
+                <>
+                  <Link
+                    href="/profile"
+                    onClick={() => setMenuOpen(false)}
+                    className="border-b border-[#F7F3E9]/10 py-3"
+                  >
+                    Profile
+                  </Link>
+                </>
               ) : (
                 <Link
                   href="/login"

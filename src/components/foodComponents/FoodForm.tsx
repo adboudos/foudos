@@ -423,6 +423,9 @@ export default function FoodForm({ food }: Props) {
 
             <div className="grid grid-cols-1 gap-3.5 sm:grid-cols-2">
 
+              {/* New recipes are credited to the signed-in person by the database;
+                  only older recipes with no owner keep a free-text contributor. */}
+              {food && !food.createdBy && (
               <div>
                 <label className={labelClass}>
                   Contributor
@@ -436,6 +439,7 @@ export default function FoodForm({ food }: Props) {
                   }
                 />
               </div>
+              )}
 
               <div>
                 <label className={labelClass}>
