@@ -143,8 +143,9 @@ export default function FoodForm({ food }: Props) {
 
   // ---------------------------
   // IMPORT FROM PHOTO
-  // Only fills fields the photo actually provided; image, link,
-  // contributor and rating are never touched.
+  // Only fills fields the import actually provided. The link is set
+  // only when a recipe link was imported; image, contributor and rating
+  // are never touched.
   // ---------------------------
   const applyExtracted = (recipe: ExtractedRecipe) => {
     if (recipe.name) setName(recipe.name);
@@ -157,6 +158,7 @@ export default function FoodForm({ food }: Props) {
     if (recipe.ingredients.length) setIngredients(recipe.ingredients);
     if (recipe.steps.length) setSteps(recipe.steps);
     if (recipe.notes) setNotes(recipe.notes);
+    if (recipe.sourceUrl) setLink(recipe.sourceUrl);
   };
 
   // ---------------------------

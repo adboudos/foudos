@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { getAccess } from "@/lib/access";
 import { canCreate } from "@/lib/roles";
+import { fetchRecipePage } from "@/lib/fetchRecipePage";
 import {
   EXTRACTION_TOOL,
   buildSystemPrompt,
@@ -17,6 +18,7 @@ const MODEL = process.env.ANTHROPIC_MODEL || "claude-opus-5-5";
 
 const MAX_IMAGES = 3;
 const MAX_NOTE_CHARS = 2000;
+const MAX_URL_CHARS = 2000;
 // Vercel serverless functions reject request bodies over 4.5 MB.
 const MAX_TOTAL_BYTES = 4 * 1024 * 1024;
 const ALLOWED_TYPES = new Set([
@@ -91,6 +93,7 @@ export async function POST(request: Request) {
   // ---- Read and validate the upload ----
   let files: File[];
   let note: string;
+  let link: string;
   let mode: ExtractMode;
 
   try {
@@ -106,15 +109,19 @@ export async function POST(request: Request) {
         ? rawNote.trim().slice(0, MAX_NOTE_CHARS)
         : "";
 
+    const rawUrl = form.get("url");
+    link =
+      typeof rawUrl === "string" ? rawUrl.trim().slice(0, MAX_URL_CHARS) : "";
+
     // Anything unexpected falls back to the safer, no-guessing mode.
     mode = form.get("mode") === "infer" ? "infer" : "strict";
   } catch {
     return fail("Couldn't read the upload. Please try again.", 400);
   }
 
-  if (files.length === 0 && !note) {
+  if (files.length === 0 && !note && !link) {
     return fail(
-      "Add a photo or write a few details about the recipe first.",
+      "Add a photo, a link, or a few details about the recipe first.",
       400
     );
   }
@@ -133,6 +140,19 @@ export async function POST(request: Request) {
     return fail("Those images are too large. Try a smaller photo.", 413);
   }
 
+  // ---- Read the linked page, if any ----
+  let page: { text: string; host: string } | undefined;
+
+  if (link) {
+    const fetched = await fetchRecipePage(link);
+
+    if (!fetched.ok) {
+      return fail(fetched.error, fetched.status);
+    }
+
+    page = { text: fetched.text, host: fetched.host };
+  }
+
   const imageBlocks = await Promise.all(
     files.map(async (file) => ({
       type: "image" as const,
@@ -146,7 +166,7 @@ export async function POST(request: Request) {
 
   // ---- Call the model ----
   const controller = new AbortController();
-  const timeout = setTimeout(() => controller.abort(), 50_000);
+  const timeout = setTimeout(() => controller.abort(), 40_000);
 
   let apiResponse: Response;
 
@@ -175,7 +195,7 @@ export async function POST(request: Request) {
               ...imageBlocks,
               {
                 type: "text",
-                text: buildUserText(note, files.length),
+                text: buildUserText(note, files.length, page),
               },
             ],
           },
@@ -241,7 +261,7 @@ export async function POST(request: Request) {
   }
 
   return NextResponse.json({
-    recipe: result.recipe,
+    recipe: { ...result.recipe, sourceUrl: page ? link : "" },
     uncertain: result.uncertain,
   });
 }

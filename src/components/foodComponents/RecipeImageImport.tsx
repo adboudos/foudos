@@ -21,7 +21,7 @@ const MAX_EDGE = 1800;
 const MODES: { value: ExtractMode; label: string; hint: string }[] = [
   {
     value: "strict",
-    label: "Only what's in my photos or note",
+    label: "Only what's in my photos, link or note",
     hint: "Anything missing is left blank for you to fill in.",
   },
   {
@@ -89,6 +89,7 @@ function ImportDialog({
 
   const [picked, setPicked] = useState<Picked[]>([]);
   const [note, setNote] = useState("");
+  const [url, setUrl] = useState("");
   const [mode, setMode] = useState<ExtractMode>("strict");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
@@ -112,7 +113,9 @@ function ImportDialog({
   }, []);
 
   const atLimit = picked.length >= MAX_FILES;
-  const canSubmit = !loading && (picked.length > 0 || note.trim().length > 0);
+  const canSubmit =
+    !loading &&
+    (picked.length > 0 || note.trim().length > 0 || url.trim().length > 0);
 
   const addFiles = (list: FileList | null) => {
     const incoming = Array.from(list ?? []);
@@ -174,6 +177,7 @@ function ImportDialog({
 
       formData.append("mode", mode);
       if (note.trim()) formData.append("note", note.trim());
+      if (url.trim()) formData.append("url", url.trim());
 
       const response = await fetch("/api/food/extract", {
         method: "POST",
@@ -224,7 +228,7 @@ function ImportDialog({
             Import a recipe with AI
           </h2>
           <p className="mt-1 text-sm text-[#1B4332]/70">
-            Add photos, a few words, or both. You can edit everything before
+            Add photos, a link, a few words, or any mix. You can edit everything before
             saving.
           </p>
         </div>
@@ -302,7 +306,29 @@ function ImportDialog({
           )}
         </fieldset>
 
-        {/* ---------- 2. NOTE ---------- */}
+        {/* ---------- 2. LINK ---------- */}
+        <div className="space-y-1">
+          <label htmlFor="recipe-import-url" className="text-sm font-semibold">
+            Recipe link{" "}
+            <span className="font-normal text-[#1B4332]/60">(optional)</span>
+          </label>
+          <input
+            id="recipe-import-url"
+            type="url"
+            inputMode="url"
+            value={url}
+            maxLength={2000}
+            disabled={loading}
+            onChange={(e) => setUrl(e.target.value)}
+            placeholder="https://example.com/best-lasagna"
+            className="w-full rounded-lg border border-[#1B4332]/30 bg-white px-3 py-2 text-sm placeholder:text-[#1B4332]/40 focus:outline-none focus:ring-2 focus:ring-[#2D6A4F]"
+          />
+          <p className="text-xs text-[#1B4332]/50">
+            Works with most recipe sites. If one blocks us, use a screenshot.
+          </p>
+        </div>
+
+        {/* ---------- 3. NOTE ---------- */}
         <div className="space-y-1">
           <label htmlFor="recipe-import-note" className="text-sm font-semibold">
             Details or instructions{" "}
@@ -323,7 +349,7 @@ function ImportDialog({
           </p>
         </div>
 
-        {/* ---------- 3. MODE ---------- */}
+        {/* ---------- 4. MODE ---------- */}
         <fieldset className="space-y-2">
           <legend className="text-sm font-semibold">
             How much should the AI fill in?
@@ -413,7 +439,7 @@ export default function RecipeImageImport({ onExtracted }: Props) {
           </h2>
 
           <p className="mt-0.5 text-xs text-[#1B4332]/60">
-            Snap or upload up to {MAX_FILES} photos, add a few details, and the
+            Snap or upload up to {MAX_FILES} photos, paste a link, add a few details, and the
             form will fill itself in. You can edit everything before saving.
           </p>
         </div>

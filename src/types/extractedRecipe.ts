@@ -23,6 +23,8 @@ export type ExtractedRecipe = {
   ingredients: Ingredient[];
   steps: string[];
   notes: string;
+  /** The link the recipe was read from, or "" if none. */
+  sourceUrl: string;
 };
 
 export type ExtractResponse =
