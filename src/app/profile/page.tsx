@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import ProfileForm from "@/components/profile/ProfileForm";
-import { getAccess } from "@/lib/access";
+import { getAccess, getOwnEmail } from "@/lib/access";
 import {
   getDisplayName,
   getMyDrinks,
@@ -67,7 +67,8 @@ export default async function ProfilePage({
 
   const { needName } = await searchParams;
 
-  const [name, foods, drinks] = await Promise.all([
+  const [email, name, foods, drinks] = await Promise.all([
+    getOwnEmail(),
     getDisplayName(userId),
     getMyFoods(userId),
     getMyDrinks(userId),
@@ -87,7 +88,16 @@ export default async function ProfilePage({
         <div className="mt-6 rounded-xl border border-[#1B4332]/15 bg-white/60 p-6">
           <ProfileForm initialName={name ?? ""} />
 
-          <p className="mt-5 text-sm">
+          {email && (
+            <p className="mt-5 text-sm">
+              <span className="font-medium">Signed in as:</span> {email}{" "}
+              <span className="text-xs text-[#1B4332]/50">
+                (only you can see this)
+              </span>
+            </p>
+          )}
+
+          <p className="mt-2 text-sm">
             <span className="font-medium">Access level:</span>{" "}
             {LEVEL[role] ?? role}
           </p>

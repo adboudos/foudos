@@ -45,3 +45,14 @@ export async function requireWriter(): Promise<Access> {
 
   return access;
 }
+
+/**
+ * The signed-in person's own sign-in email, read from their verified session.
+ * Only ever shown back to that person; it is never copied into our tables.
+ */
+export async function getOwnEmail(): Promise<string | null> {
+  const supabase = await createAuthedSupabaseClient();
+  const { data } = await supabase.auth.getClaims();
+  const email = data?.claims?.email;
+  return typeof email === "string" ? email : null;
+}
