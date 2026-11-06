@@ -2,10 +2,12 @@ import { NextResponse } from "next/server";
 import { getAccess } from "@/lib/access";
 import { canCreate } from "@/lib/roles";
 import {
-  EXTRACTION_SYSTEM_PROMPT,
   EXTRACTION_TOOL,
+  buildSystemPrompt,
+  buildUserText,
   normalizeExtraction,
 } from "@/lib/recipeExtraction";
+import type { ExtractMode } from "@/types/extractedRecipe";
 
 // Vision calls can take a while; give the function room to finish.
 export const maxDuration = 60;
@@ -14,6 +16,7 @@ const ANTHROPIC_URL = "https://api.anthropic.com/v1/messages";
 const MODEL = process.env.ANTHROPIC_MODEL || "claude-opus-5-5";
 
 const MAX_IMAGES = 3;
+const MAX_NOTE_CHARS = 2000;
 // Vercel serverless functions reject request bodies over 4.5 MB.
 const MAX_TOTAL_BYTES = 4 * 1024 * 1024;
 const ALLOWED_TYPES = new Set([
@@ -87,18 +90,33 @@ export async function POST(request: Request) {
 
   // ---- Read and validate the upload ----
   let files: File[];
+  let note: string;
+  let mode: ExtractMode;
 
   try {
     const form = await request.formData();
+
     files = form
       .getAll("images")
       .filter((v): v is File => typeof v !== "string");
+
+    const rawNote = form.get("note");
+    note =
+      typeof rawNote === "string"
+        ? rawNote.trim().slice(0, MAX_NOTE_CHARS)
+        : "";
+
+    // Anything unexpected falls back to the safer, no-guessing mode.
+    mode = form.get("mode") === "infer" ? "infer" : "strict";
   } catch {
     return fail("Couldn't read the upload. Please try again.", 400);
   }
 
-  if (files.length === 0) {
-    return fail("Add a photo or screenshot of a recipe first.", 400);
+  if (files.length === 0 && !note) {
+    return fail(
+      "Add a photo or write a few details about the recipe first.",
+      400
+    );
   }
 
   if (files.length > MAX_IMAGES) {
@@ -143,8 +161,9 @@ export async function POST(request: Request) {
       },
       body: JSON.stringify({
         model: MODEL,
-        max_tokens: 2048,
-        system: EXTRACTION_SYSTEM_PROMPT,
+        // Infer mode can write a whole recipe from a few words.
+        max_tokens: 3000,
+        system: buildSystemPrompt(mode),
         tools: [EXTRACTION_TOOL],
         // Claude 5.5 models reject forced tool choice ("tool"/"any"), so let
         // the model choose and instruct it to call the tool in the message.
@@ -156,7 +175,7 @@ export async function POST(request: Request) {
               ...imageBlocks,
               {
                 type: "text",
-                text: "Extract this recipe. You must respond by calling the save_recipe tool.",
+                text: buildUserText(note, files.length),
               },
             ],
           },
@@ -191,7 +210,7 @@ export async function POST(request: Request) {
 
     if (apiResponse.status === 400) {
       return fail(
-        "That image couldn't be read. Try a clearer photo or a screenshot. Or I might just be poor and my API spend limit is reached lol venmo @alex-boudos",
+        "That couldn't be read. Try a clearer photo, shorter text or a screenshot. Or I might just be poor and my API spend limit is reached lol venmo @alex-boudos",
         422
       );
     }
@@ -216,7 +235,7 @@ export async function POST(request: Request) {
 
   if (!result.isRecipe) {
     return fail(
-      "I couldn't find a recipe in that image. Try a clearer photo that shows the ingredients and steps.",
+      "I couldn't find a recipe there. Try a clearer photo that shows the ingredients and steps, or add a few details.",
       422
     );
   }

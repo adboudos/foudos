@@ -1,6 +1,12 @@
 import type { Ingredient } from "./ingredient";
 
 /**
+ * strict: only use what is in the photos / note; leave the rest empty.
+ * infer:  fill every field, estimating whatever the source doesn't say.
+ */
+export type ExtractMode = "strict" | "infer";
+
+/**
  * Shape returned by /api/food/extract. Only contains fields that can be
  * read from a recipe photo; image, link, contributor and rating are left
  * for the user to fill in.
