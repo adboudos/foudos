@@ -23,13 +23,17 @@ const MAX_JSON_CHARS = 20_000;
 
 export type PageResult =
   | { ok: true; text: string; host: string }
-  | { ok: false; error: string; status: number };
+  | { ok: false; error: string; status: number; reason: string };
 
-const bad = (error: string, status = 422): PageResult => ({
+const bad = (error: string, status = 422, reason = "rejected"): PageResult => ({
   ok: false,
   error,
   status,
+  reason,
 });
+
+const PASTE_HINT =
+  "Try a screenshot of the recipe, or copy the ingredients and steps into the details box.";
 
 /* ---------- address checks ---------- */
 
@@ -259,8 +263,9 @@ export async function fetchRecipePage(rawUrl: string): Promise<PageResult> {
       });
     } catch {
       return bad(
-        "Couldn't open that page. It may be slow or blocking automated visits. Try a screenshot instead.",
-        502
+        `Couldn't open that page. It may be slow or blocking automated visits. ${PASTE_HINT}`,
+        502,
+        "network-or-timeout"
       );
     }
 
@@ -269,7 +274,7 @@ export async function fetchRecipePage(rawUrl: string): Promise<PageResult> {
       await response.body?.cancel();
 
       if (!location || hop === MAX_REDIRECTS) {
-        return bad("That link redirects too many times.");
+        return bad("That link redirects too many times.", 422, "redirects");
       }
 
       const next = await assertPublicUrl(new URL(location, current).toString());
@@ -283,10 +288,22 @@ export async function fetchRecipePage(rawUrl: string): Promise<PageResult> {
   }
 
   if (!response || !response.ok) {
+    const upstream = response?.status ?? 0;
     await response?.body?.cancel();
+
+    if (upstream === 404 || upstream === 410) {
+      return bad(
+        "That page wasn't found. Check the link and try again.",
+        422,
+        `http-${upstream}`
+      );
+    }
+
+    // 401/403/429 and friends: almost always bot protection on the site.
     return bad(
-      "That website wouldn't let me read the page. Try a screenshot of the recipe instead.",
-      502
+      `That website blocks automated visits, so I can't read the recipe from the link. ${PASTE_HINT}`,
+      502,
+      `http-${upstream}`
     );
   }
 
@@ -294,20 +311,22 @@ export async function fetchRecipePage(rawUrl: string): Promise<PageResult> {
 
   if (!/text\/html|application\/xhtml/i.test(type)) {
     await response.body?.cancel();
-    return bad("That link isn't a web page I can read.");
+    return bad("That link isn't a web page I can read.", 422, "not-html");
   }
 
   const html = await readCapped(response);
 
   if (html === null) {
-    return bad("That page is too large to read.");
+    return bad("That page is too large to read.", 422, "too-large");
   }
 
   const text = extractJsonLdRecipe(html) ?? extractReadableText(html);
 
   if (text.length < 40) {
     return bad(
-      "I couldn't find any readable text on that page. Try a screenshot instead."
+      `I couldn't find any readable text on that page. ${PASTE_HINT}`,
+      422,
+      "no-text"
     );
   }
 

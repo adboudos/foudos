@@ -147,6 +147,17 @@ export async function POST(request: Request) {
     const fetched = await fetchRecipePage(link);
 
     if (!fetched.ok) {
+      // Host only (no path or query) so logs never hold anything private.
+      let host = "unknown";
+      try {
+        host = new URL(link).hostname;
+      } catch {}
+
+      console.warn("Recipe link import failed:", {
+        host,
+        reason: fetched.reason,
+      });
+
       return fail(fetched.error, fetched.status);
     }
 
