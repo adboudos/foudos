@@ -67,7 +67,7 @@ export default function FoodSearch({
         type="search"
         value={query}
         onChange={(event) => setQuery(event.target.value)}
-        placeholder="Search food (Doesn't work yet)..."
+        placeholder="Search food..."
         className="w-full rounded-lg border border-[#1B4332]/20 bg-white px-4 py-2.5 pr-10 text-sm outline-none transition focus:border-[#1B4332] focus:ring-1 focus:ring-[#1B4332]"
       />
 
